@@ -1,0 +1,50 @@
+#!/bin/bash
+
+###################################################################################################
+#   Macros                                                                                        #
+###################################################################################################
+
+vagrant() {
+    if [[ "$1" == "up" ]]
+    then
+        command vagrant "up"
+        command vagrant "ssh"
+    else
+        command vagrant "$@"
+    fi
+}
+
+phpunit() {
+    command echo "Opening $PWD"
+    if [[ -d "./module" ]]
+    then
+    (
+        command cd "./module"
+        for D in `find . -maxdepth 1 -type d`
+        do
+        (
+            command cd "$D"
+            phpunit "$@"
+        )
+        done
+    )
+    else
+        if [[ -d "./test" ]]
+        then
+        (
+            command cd "./test"
+            phpunit "$@"
+        )
+        elif [[ -d "./tests" ]]
+        then
+        (
+             command cd "./tests"
+             phpunit "$@"
+        )
+        else
+             command phpunit "$@"
+        fi
+    fi
+}
+
+###################################################################################################
