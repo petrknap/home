@@ -14,6 +14,33 @@ vagrant() {
     fi
 }
 
+
+
+git() {
+    if [ "$1" == "mpull" ]
+    then
+        if [ -d "./.git" ]
+        then
+            command echo "Opening $PWD"
+            command git pull
+        fi
+        for D in `find . -maxdepth 1 -type d`
+        do
+        (
+            if [ "$D" != "." ]
+            then
+                command cd "$D"
+                git "mpull"
+            fi
+        )
+        done
+    else
+        command git "$@"
+    fi
+}
+
+
+
 phpunit() {
     command echo "Opening $PWD"
     if [ -d "./module" ]
