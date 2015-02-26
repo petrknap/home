@@ -5,7 +5,7 @@
 ###################################################################################################
 
 vagrant() {
-    if [[ "$1" == "up" ]]
+    if [ "$1" == "up" ]
     then
         command vagrant "up"
         command vagrant "ssh"
@@ -16,7 +16,7 @@ vagrant() {
 
 phpunit() {
     command echo "Opening $PWD"
-    if [[ -d "./module" ]]
+    if [ -d "./module" ]
     then
     (
         command cd "./module"
@@ -29,13 +29,13 @@ phpunit() {
         done
     )
     else
-        if [[ -d "./test" ]]
+        if [ -d "./test" ]
         then
         (
             command cd "./test"
             phpunit "$@"
         )
-        elif [[ -d "./tests" ]]
+        elif [ -d "./tests" ]
         then
         (
              command cd "./tests"
