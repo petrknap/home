@@ -17,7 +17,20 @@ vagrant() {
 
 
 git() {
-    if [ "$1" == "mpull" ]
+    if [ "$1" == "help" ] && [ "$2" == "" ]
+    then
+        command git "$@"
+        command echo ""
+        command echo "Macro extension:"
+        command echo "   git mpull [<directory>]"
+        command echo "      Pulls all git repositories in directory and subdirectories."
+    elif [ "$1" == "mpull" ] && [ "$2" != "" ]
+    then
+    (
+        command cd "$2"
+        git "mpull"
+    )
+    elif [ "$1" == "mpull" ]
     then
         if [ -d "./.git" ]
         then
