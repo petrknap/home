@@ -91,4 +91,34 @@ phpunit() {
     fi
 }
 
+
+
+composer() {
+    if [ "$1" == "help" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]
+    then
+        command composer "$@"
+        command echo ""
+        command echo "Macro extension:"
+        command echo "   composer rollback"
+        command echo "      Rollbacks last update and restores previous state."
+    elif [ "$1" == "update" ]
+    then
+        command cat "./composer.lock" > "./.composer.lock"
+        command composer "$@"
+    elif [ "$1" == "rollback" ]
+    then
+        if [ -e "./.composer.lock" ]
+        then
+            command cat "./.composer.lock" > "./composer.lock"
+            command rm "./.composer.lock"
+            command composer "install"
+        else
+            command echo "ERROR!"
+            command echo "    Backup of composer.lock not found."
+        fi
+    else
+        command composer "$@"
+    fi
+}
+
 ###################################################################################################
