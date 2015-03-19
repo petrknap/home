@@ -60,7 +60,12 @@ git() {
 
 phpunit() {
     command echo "Opening $PWD"
-    if [ -d "./module" ]
+    if [ -e "phpunit.xml" ]
+    then
+    (
+        command phpunit "$@"
+    )
+    elif [ -d "./module" ]
     then
     (
         command cd "./module"
