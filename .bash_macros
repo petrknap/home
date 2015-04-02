@@ -39,7 +39,7 @@ git() {
         if [ -d "./.git" ]
         then
             command echo "Opening $PWD"
-            command git pull
+            command git pull --ff-only
         fi
         for D in `find . -maxdepth 1 -type d`
         do
