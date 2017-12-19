@@ -1,0 +1,10 @@
+[user]
+	email = dev@petrknap.cz
+	name = Petr Knap
+[push]
+	default = current
+[core]
+	eol = lf
+	autocrlf = input
+[merge]
+	ff = only

@@ -1,0 +1,17 @@
+- become: true
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - git
+
+- copy:
+    src: files/.gitconfig
+    dest: ~/.gitconfig
+    backup: yes
+
+- blockinfile:
+    path: ~/.bash_aliases
+    backup: yes
+    content: "{{lookup('file', 'files/macros.sh')}}"
