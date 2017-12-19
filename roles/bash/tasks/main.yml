@@ -1,0 +1,6 @@
+- lineinfile:
+    path: ~/.bash_aliases
+    backup: yes
+    line: "alias {{ item }}"
+  with_items:
+    - ll='ls -alF'

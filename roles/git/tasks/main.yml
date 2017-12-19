@@ -11,7 +11,12 @@
     dest: ~/.gitconfig
     backup: yes
 
-- blockinfile:
+- copy:
+    src: files/macros.sh
+    dest: ~/.git_macros.sh
+    backup: yes
+
+- lineinfile:
     path: ~/.bash_aliases
     backup: yes
-    content: "{{lookup('file', 'files/macros.sh')}}"
+    line: ". ~/.git_macros.sh"
