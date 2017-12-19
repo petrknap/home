@@ -4,3 +4,8 @@
     line: "alias {{ item }}"
   with_items:
     - ll='ls -alF'
+
+- copy:
+    src: files/backup.bash
+    dest: ~/backup
+    mode: 764
