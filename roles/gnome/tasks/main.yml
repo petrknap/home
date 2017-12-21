@@ -1,4 +1,0 @@
-- file:
-    src: ~/Desktop
-    dest: ~/.local/share/applications/Desktop
-    state: link

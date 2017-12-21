@@ -1,5 +1,5 @@
 - lineinfile:
-    path: ~/.bash_aliases
+    path: "{{ home_dir }}/.bash_aliases"
     backup: yes
     line: "alias {{ item }}"
   with_items:
@@ -7,5 +7,5 @@
 
 - copy:
     src: files/backup.bash
-    dest: ~/backup
-    mode: 764
+    dest: "{{ home_dir }}/backup"
+    mode: 0764

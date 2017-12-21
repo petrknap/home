@@ -1,0 +1,21 @@
+- become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - git
+
+- template:
+    src: templates/.gitconfig
+    dest: "{{ home_dir }}/.gitconfig"
+    backup: yes
+
+- copy:
+    src: files/macros.bash
+    dest: "{{ home_dir }}/.git_macros.bash"
+
+- lineinfile:
+    path: "{{ home_dir }}/.bash_aliases"
+    backup: yes
+    line: ". {{ home_dir }}/.git_macros.bash"
