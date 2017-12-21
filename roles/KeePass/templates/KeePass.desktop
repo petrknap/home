@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=KeePass
+Exec={{ home_dir }}/.apps/KeePass/keepass-2.23.0/run
+Icon={{ home_dir }}/.apps/KeePass/keepass-2.23.0/icon.png
+Terminal=false
+Type=Application

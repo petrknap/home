@@ -1,0 +1,22 @@
+- file:
+    path: "{{ home_dir }}/.apps/KeePass"
+    state: directory
+
+- unarchive:
+    src: https://github.com/petrknap/keepass/archive/v2.23.0.zip
+    dest: "{{ home_dir }}/.apps/KeePass"
+    creates: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0"
+    remote_src: yes
+
+- command: ./install
+  args:
+    chdir: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0"
+    creates: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0/run"
+  ignore_errors: yes
+
+# TODO register shortcut
+
+- template:
+    src: templates/KeePass.desktop
+    dest: "{{ home_dir }}/Desktop/KeePass.desktop"
+    mode: 0774
