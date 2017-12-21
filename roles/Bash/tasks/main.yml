@@ -1,6 +1,7 @@
 - lineinfile:
     path: "{{ home_dir }}/.bash_aliases"
     backup: yes
+    create: yes
     line: "alias {{ item }}"
   with_items:
     - ll='ls -alF'
