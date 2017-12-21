@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Violet UML Editor
+Exec={{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-2.1.0/run.bat {{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-2.1.0
+Icon={{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-2.1.0/icon.ico
+Terminal=false
+Type=Application
