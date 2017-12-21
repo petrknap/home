@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=PhpStorm
+Exec={{ home_dir }}/.apps/PhpStorm/PhpStorm-171.4424.11/bin/phpstorm.sh
+Icon={{ home_dir }}/.apps/PhpStorm/PhpStorm-173.3942.32/bin/phpstorm.png
+Terminal=false
+Type=Application

@@ -1,0 +1,14 @@
+- file:
+    path: "{{ home_dir }}/.apps/PhpStorm"
+    state: directory
+
+- unarchive:
+    src: https://download.jetbrains.com/webide/PhpStorm-2017.3.1.tar.gz
+    dest: "{{ home_dir }}/.apps/PhpStorm"
+    creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-173.3942.32"
+    remote_src: yes
+
+- template:
+    src: templates/PhpStorm.desktop
+    dest: "{{ home_dir }}/Desktop/PhpStorm.desktop"
+    mode: 0774
