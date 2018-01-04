@@ -1,0 +1,13 @@
+- hosts: 127.0.0.1
+  roles:
+    - Bash
+    - GNOME
+    - Git
+    - Chrome
+    - KeePass
+    - PhpStorm
+    - VioletUmlEditor
+  vars:
+    home_dir: /home/dash
+    git_email: dev@petrknap.cz
+    git_name: Petr Knap
