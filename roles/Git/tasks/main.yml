@@ -18,4 +18,4 @@
 - lineinfile:
     path: "{{ home_dir }}/.bash_aliases"
     backup: yes
-    line: ". {{ home_dir }}/.git_macros.bash"
+    line: "if [ -f ~/.git_macros.bash ]; then . ~/.git_macros.bash; else echo \"WARNING! ~/.git_macros.bash not found\"; fi"

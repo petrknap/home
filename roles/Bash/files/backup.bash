@@ -14,7 +14,6 @@ sudo tar -cvzf ~/backup.tmp \
 	$(realpath $0) \
 	/etc \
 	~/.apps \
-	~/.bin \
 	~/.config \
 	~/.local/share/applications \
 	~/.thunderbird \
