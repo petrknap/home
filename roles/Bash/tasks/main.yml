@@ -9,4 +9,9 @@
 - copy:
     src: files/backup.bash
     dest: "{{ home_dir }}/backup"
-    mode: 0764
+    mode: 0544
+
+- copy:
+    content: "{{ lookup('password', home_dir + '/backup.key length=1024') }}"
+    dest: "{{ home_dir }}/backup.key" # hack to remove new line at the end of generated file by lookup
+    mode: 0400

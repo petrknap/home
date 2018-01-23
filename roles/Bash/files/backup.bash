@@ -4,13 +4,13 @@ set -e -x
 CURRENT_USER=$USER
 if [ -e ~/backup.tmp ]
 then
-	sudo rm ~/backup.tmp
+	rm ~/backup.tmp
 fi
 
 ls -aR ~/Downloads > ~/Downloads.ls || true
 ls -aR ~/Videos > ~/Videos.ls || true
 ls -aR ~/VirtualBox\ VMs > ~/VirtualBox\ VMs.ls || true
-sudo tar -cvzf ~/backup.tmp \
+sudo tar -cz \
 	$(realpath $0) \
 	/etc \
 	~/.apps \
@@ -19,13 +19,13 @@ sudo tar -cvzf ~/backup.tmp \
 	~/.thunderbird \
 	~/.PhpStorm* \
 	~/.PyCharm* \
-	~/*.ls \
+	$(find ~ -maxdepth 1 -type f) \
 	$(find ~/* -maxdepth 0 -type d -not -path "*/Downloads" -not -path "*/Videos" -not -path "*/VirtualBox VMs") \
+	| gpg --symmetric --passphrase-file ~/backup.key --batch --output ~/backup.tmp \
 && rm ~/*.ls;
-sudo chown $CURRENT_USER ~/backup.tmp
 
-if [ -e ~/backup.tar.gz ]
+if [ -e ~/backup.tar.gz.gpg ]
 then
-	rm ~/backup.tar.gz
+	rm ~/backup.tar.gz.gpg
 fi
-mv ~/backup.tmp ~/backup.tar.gz
+mv ~/backup.tmp ~/backup.tar.gz.gpg
