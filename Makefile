@@ -10,3 +10,6 @@ ansible-playbook:
 
 workstation:
 	make ansible-playbook ARGS="workstation.yml"
+
+htpc:
+	make ansible-playbook ARGS="htpc.yml"

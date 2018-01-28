@@ -1,0 +1,9 @@
+- hosts: 127.0.0.1
+  roles:
+    - Bash
+    - GNOME
+    - SMB
+  vars:
+    home_dir: /home/user
+    samba_users:
+      - petr
