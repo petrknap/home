@@ -1,0 +1,47 @@
+- become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - libcups2
+    - samba-common
+    - samba
+
+- become: yes
+  copy:
+    src: files/smb.conf
+    dest: "/etc/samba/smb.conf"
+  notify: SMB restart
+
+- become: yes
+  group:
+    name: smb_users
+
+- become: yes
+  file:
+    path: /home/shared
+    state: directory
+    owner: nobody
+    group: smb_users
+    mode: 0775
+
+- become: yes
+  file:
+    path: /home/shared/public
+    state: directory
+    owner: nobody
+    group: smb_users
+    mode: 0777
+
+- become: yes
+  user:
+    name: "{{ item }}"
+    group: smb_users
+    shell: /sbin/nologin
+    createhome: yes
+  with_items: '{{ samba_users }}'
+
+- become: yes
+  shell: "(echo {{ lookup('password', home_dir + '/user_' + item + '.password length=8') }}; echo {{ lookup('password', home_dir + '/user_' + item + '.password length=8') }}) | smbpasswd -s -a {{ item }}"
+  with_items: '{{ samba_users }}'

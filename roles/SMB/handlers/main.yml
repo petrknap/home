@@ -1,0 +1,5 @@
+- name: SMB restart
+  become: yes
+  systemd:
+    name: smbd
+    state: restarted
