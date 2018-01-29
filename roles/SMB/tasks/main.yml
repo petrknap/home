@@ -32,7 +32,7 @@
 
 - name: "Create virtual drive image for user"
   become: yes
-  shell: "dd if=/dev/zero of=/home/{{ item }}.img bs=1M count={{ samba_user_home_quota }} && yes | mkfs -t ext4 /home/{{ item }}.img"
+  shell: "dd if=/dev/zero of=/home/{{ item }}.img bs=1M count={{ samba_users_home_size__mb_per_user }} && yes | mkfs -t ext4 /home/{{ item }}.img"
   args:
     creates: "/home/{{ item }}.img"
   with_items: "{{ samba_users }}"
