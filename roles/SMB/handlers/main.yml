@@ -1,4 +1,4 @@
-- name: SMB restart
+- name: Restart server
   become: yes
   systemd:
     name: smbd
