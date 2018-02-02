@@ -16,16 +16,10 @@
     dest: "/etc/samba/smb.conf"
   notify: Restart server
 
-- name: "Create user group"
-  become: yes
-  group:
-    name: smb_users
-
 - name: "Create user"
   become: yes
   user:
     name: "{{ item }}"
-    group: "smb_users"
     shell: /sbin/nologin
     createhome: yes
   with_items: "{{ samba_users }}"
@@ -67,28 +61,28 @@
     mode: 0700
   with_items: "{{ samba_users }}"
 
-- name: "Create shared directory"
+- name: "Create shared-home directory"
   become: yes
   file:
     path: /home/shared
     state: directory
     owner: nobody
-    group: smb_users
-    mode: 0770
+    group: nogroup
+    mode: 0777
 
-- name: "Create public directory"
+- name: "Create Public directory"
   become: yes
   file:
-    path: /home/shared/public
+    path: /home/shared/Public
     state: directory
     owner: nobody
     group: nogroup
     mode: 0777
 
-- name: "Prevent public directory deletion"
+- name: "Prevent Public directory deletion"
   become: yes
   file:
-    path: /home/shared/public/.keep
+    path: /home/shared/Public/.keep
     state: touch
     owner: nobody
     group: nogroup
