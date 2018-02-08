@@ -1,0 +1,58 @@
+- name: "Check if server is installed"
+  command: dpkg-query -W emby-server
+  register: dpkg_emby
+  failed_when: dpkg_emby.rc > 1
+  changed_when: dpkg_emby.rc == 1
+
+- name: "Download server"
+  get_url:
+    url: https://github.com/MediaBrowser/Emby/releases/download/3.2.70.0/emby-server-deb_3.2.70.0_amd64.deb
+    dest: /tmp/emby-server.deb
+  when: dpkg_emby.rc == 1
+
+- name: "Install server"
+  become: true
+  apt:
+    deb: /tmp/emby-server.deb
+  when: dpkg_emby.rc == 1
+
+- name: "Enable server"
+  become: yes
+  systemd:
+    name: emby-server
+    enabled: yes
+
+- name: "Create shared-home directory"
+  become: yes
+  file:
+    path: /home/shared
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: 0777
+
+- name: "Create media directories"
+  become: yes
+  file:
+    path: "/home/shared/{{ item }}"
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: 0777
+  with_items: "{{ emby_media_dirs }}"
+
+- name: "Prevent media directories deletion"
+  become: yes
+  file:
+    path: "/home/shared/{{ item }}/.keep"
+    state: touch
+    owner: nobody
+    group: nogroup
+    mode: 0000
+  with_items: "{{ emby_media_dirs }}"
+
+- name: "Start server"
+  become: yes
+  systemd:
+    name: emby-server
+    state: started
