@@ -3,8 +3,13 @@
     - Bash
     - GNOME
     - SMB
+    - Emby
   vars:
     home_dir: /home/user
     samba_users_home_size__mb_per_user: 102400
     samba_users:
       - petr
+    emby_media_dirs:
+      - Hudba
+      - Fotky a videa
+      - Filmy a seriály
