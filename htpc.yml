@@ -4,11 +4,15 @@
     - GNOME
     - SMB
     - Emby
+    - HTPC
   vars:
-    home_dir: /home/user
+    user: user
+    home_dir: /home/{{ user }}
     samba_users_home_size__mb_per_user: 102400
     samba_users:
       - petr
+      - sona
+      - zdenek
     emby_media_dirs:
       - Hudba
       - Fotky a videa

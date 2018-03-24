@@ -1,0 +1,42 @@
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - openssh-server
+    - rsync
+    - htop
+    - mc
+    - nano
+
+- name: Authorize public key
+  authorized_key:
+    user: {{ user }}
+    key: "{{ lookup('file', 'files/' ~ item ~ '.pub') }}"
+  with_items:
+    - petr@PK-HP450G3
+
+- name: Disallow password authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  notify: Restart ssh
+
+- name: Assign Emby Web Client to standard HTTP port
+  become: yes
+  iptables:
+    table: nat
+    chain: "{{ item }}"
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: REDIRECT
+    to_ports: 8096
+    comment: Assign Emby Web App to standard HTTP port
+  with_items:
+    - PREROUTING
+    - OUTPUT
