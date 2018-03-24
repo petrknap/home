@@ -19,6 +19,7 @@
     - petr@PK-HP450G3
 
 - name: Disallow password authentication
+  become: yes
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PasswordAuthentication"
