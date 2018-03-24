@@ -13,7 +13,7 @@
 
 - name: Authorize public key
   authorized_key:
-    user: {{ user }}
+    user: "{{ user }}"
     key: "{{ lookup('file', 'files/' + item + '.pub') }}"
   with_items:
     - petr@PK-HP450G3
