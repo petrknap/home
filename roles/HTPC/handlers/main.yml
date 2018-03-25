@@ -3,3 +3,7 @@
   systemd:
     name: ssh
     state: restarted
+
+- name: Save iptables
+  become: yes
+  command: iptables-save
