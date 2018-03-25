@@ -1,12 +1,20 @@
 # WARNING: Use it at the end of playlist
 
+- name: Gather rules
+  become: yes
+  command: iptables-save
+  register: rules
+
 - name: Save rules
   become: yes
-  command: iptables-save > /etc/iptables_rules
+  copy:
+    dest: /etc/iptables_rules
+    content: "{{ rules.stdout }}"
+    backup: yes
 
 - name: Restore rules after reboot
   become: yes
   cron:
+    name: Restore rules after reboot
     special_time: reboot
-    job: iptables-restore < /etc/iptables_rules
-
+    job: "iptables-restore < /etc/iptables_rules"
