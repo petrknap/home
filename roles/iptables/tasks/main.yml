@@ -1,0 +1,12 @@
+# WARNING: Use it at the end of playlist
+
+- name: Save rules
+  become: yes
+  command: iptables-save > /etc/iptables_rules
+
+- name: Restore rules after reboot
+  become: yes
+  cron:
+    special_time: reboot
+    job: iptables-restore < /etc/iptables_rules
+

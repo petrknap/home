@@ -41,7 +41,6 @@
     jump: REDIRECT
     to_ports: 8096
     comment: Assign Emby Web App to standard HTTP port
-  notify: Save iptables
   with_items:
     - PREROUTING
     - OUTPUT

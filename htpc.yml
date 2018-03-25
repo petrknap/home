@@ -5,6 +5,7 @@
     - SMB
     - Emby
     - HTPC
+    - iptables
   vars:
     user: user
     home_dir: "/home/{{ user }}"
