@@ -19,6 +19,7 @@
     key: "{{ lookup('file', 'files/' + item + '.pub') }}"
   with_items:
     - petr@PK-HP450G3
+    - root@PK-HP450G3
 
 - name: Disallow password authentication
   become: yes
