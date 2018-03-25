@@ -5,6 +5,8 @@
     state: present
     force: yes
   with_items:
+    - exfat-fuse
+    - exfat-utils
     - openssh-server
     - rsync
     - htop
