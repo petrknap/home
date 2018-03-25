@@ -44,3 +44,21 @@
   with_items:
     - PREROUTING
     - OUTPUT
+
+- name: Backup /etc
+  become: yes
+  cron:
+    name: Backup /etc
+    special_time: daily
+    job: "rsync -av --delete /etc /media/{{ user }}/backup/rsync"
+
+- name: Backup /home
+  become: yes
+  cron:
+    name: "Backup /home/{{ item }}"
+    special_time: daily
+    job: "rsync -av --delete /home/{{ item }} /media/{{ user }}/backup/rsync/home"
+  with_items:
+    - "{{ user }}"
+    - shared
+    - "{{ samba_users }}"
