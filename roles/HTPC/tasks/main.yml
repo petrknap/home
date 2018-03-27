@@ -49,9 +49,27 @@
   become: yes
   cron:
     name: "Backup /home/{{ item }}"
-    special_time: daily
+    hour: 17
+    minute: 0
     job: "rsync -av --delete /home/{{ item }} /media/{{ user }}/backup/home"
   with_items:
     - "{{ user }}"
     - shared
     - "{{ samba_users }}"
+
+- name: Sleep & wake up
+  become: yes
+  cron:
+    name: "Sleep & wake up (weekday: {{ item.d }})"
+    weekday: "{{ item.d }}"
+    hour: "{{ item.h }}"
+    minute: "{{ item.m }}"
+    job: "rtcwake -m mem -s {{ (item.t * 3600)|int }}"
+  with_items:
+    - {d: 1, h: 0, m: 15, t: 16.25}
+    - {d: 2, h: 0, m: 15, t: 16.25}
+    - {d: 3, h: 0, m: 15, t: 16.25}
+    - {d: 4, h: 0, m: 15, t: 16.25}
+    - {d: 5, h: 0, m: 15, t: 16.25}
+    - {d: 6, h: 1, m: 15, t: 7}
+    - {d: 0, h: 1, m: 15, t: 7}
