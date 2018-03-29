@@ -57,6 +57,11 @@
     - shared
     - "{{ samba_users }}"
 
+- name: Find rtcwake
+  become: yes
+  command: which rtcwake
+  register: which_rtcwake
+
 - name: Sleep & wake up
   become: yes
   cron:
@@ -64,7 +69,7 @@
     weekday: "{{ item.d }}"
     hour: "{{ item.h }}"
     minute: "{{ item.m }}"
-    job: "rtcwake -m mem -s {{ (item.t * 3600)|int }}"
+    job: "{{ which_rtcwake.stdout }} -m mem -s {{ (item.t * 3600)|int }}"
   with_items:
     - {d: 1, h: 0, m: 15, t: 16.25}
     - {d: 2, h: 0, m: 15, t: 16.25}
