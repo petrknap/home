@@ -51,6 +51,14 @@
     mode: 0000
   with_items: "{{ emby_media_dirs }}"
 
+- name: Grant permissions to emby
+  become: yes
+  cron:
+    name: "Grant permissions to emby on /home/shared/{{ item }}/"
+    special_time: hourly
+    job: "chgrp --recursive emby /home/shared/{{ item }}/ && chmod -R g-x+rwX /home/shared/{{ item }}/"
+  with_items: "{{ emby_media_dirs }}"
+
 - name: "Start server"
   become: yes
   systemd:
