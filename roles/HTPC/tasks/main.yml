@@ -51,7 +51,7 @@
     name: "Backup /home/{{ item }}"
     hour: 17
     minute: 0
-    job: "rsync -av --delete /home/{{ item }} /media/{{ user }}/backup/home"
+    job: "find /media/{{ user }}/backup/home/{{ item }} -mtime +180 -type f -delete; rsync -a /home/{{ item }} /media/{{ user }}/backup/home"
   with_items:
     - "{{ user }}"
     - shared
