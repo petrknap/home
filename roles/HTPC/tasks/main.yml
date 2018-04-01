@@ -62,7 +62,7 @@
     name: "Backup '/home/{{ user }}'"
     hour: 17
     minute: 0
-    job: "'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old' || true) && (mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old' || true) && cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg'"
+    job: "'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg')"
 
 - name: Find rtcwake
   become: yes
