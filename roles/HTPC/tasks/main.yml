@@ -56,6 +56,14 @@
     - shared
     - "{{ samba_users }}"
 
+- name: Backup /home
+  become: yes
+  cron:
+    name: "Backup '/home/{{ user }}'"
+    hour: 17
+    minute: 0
+    job: "'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old' || true) && (mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old' || true) && cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg'"
+
 - name: Find rtcwake
   become: yes
   command: which rtcwake
