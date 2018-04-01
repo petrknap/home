@@ -51,15 +51,15 @@
     name: "Backup '/home/{{ item }}'"
     hour: 17
     minute: 0
-    job: "find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete; rsync -a '/home/{{ item }}' '/media/{{ user }}/backup/home'"
+    job: "[ '{{ item }}' == 'shared' ] && find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete || find '/media/{{ user }}/backup/home/{{ item }}' -mtime +7 -type f -delete; rsync --archive --backup --suffix=.$(date +'%Y-%m-%d_%H-%M') '/home/{{ item }}' '/media/{{ user }}/backup/home'"
   with_items:
     - shared
     - "{{ samba_users }}"
 
-- name: Backup /home
+- name: Backup /
   become: yes
   cron:
-    name: "Backup '/home/{{ user }}'"
+    name: "Backup '/'"
     hour: 17
     minute: 0
     job: "'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg')"
