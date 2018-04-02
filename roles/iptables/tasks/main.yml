@@ -11,9 +11,9 @@
     dest: /etc/iptables_rules
     content: "{{ rules.stdout }}"
 
-- name: Restore rules after reboot
+- name: Restore rules on if-up
   become: yes
-  cron:
-    name: Restore rules after reboot
-    special_time: reboot
-    job: "iptables-restore < /etc/iptables_rules"
+  copy:
+    src: files/iptables-restore.bash
+    dest: /etc/network/if-up.d/iptables-restore
+    mode: 0555
