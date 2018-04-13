@@ -3,9 +3,9 @@
     state: directory
 
 - unarchive:
-    src: https://download.jetbrains.com/webide/PhpStorm-2017.3.2.tar.gz
+    src: https://download.jetbrains.com/webide/PhpStorm-2018.1.1.tar.gz
     dest: "{{ home_dir }}/.apps/PhpStorm"
-    creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-173.4127.29"
+    creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-181.4445.72"
     remote_src: yes
 
 - template:
