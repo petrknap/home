@@ -1,0 +1,31 @@
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - htop
+    - mc
+    - nano
+    - php-cli
+    - virtualbox
+    - iotop
+
+- name: Check if vagrant is installed
+  command: which vagrant
+  register: vagrant_not_found
+  failed_when: vagrant_not_found.rc > 1
+  changed_when: vagrant_not_found.rc == 1
+
+- name: Download vagrant
+  get_url:
+    url: "https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.deb"
+    dest: "/tmp/vagrant.deb"
+  when: vagrant_not_found.rc == 1
+
+- name: Install vagrant
+  become: yes
+  apt:
+    deb: "/tmp/vagrant.deb"
+  when: vagrant_not_found.rc == 1

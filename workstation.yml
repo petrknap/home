@@ -7,6 +7,7 @@
     - KeePass
     - PhpStorm
     - VioletUmlEditor
+    - workstation
   vars:
     home_dir: /home/dash
     git_email: dev@petrknap.cz
