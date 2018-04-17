@@ -22,5 +22,6 @@
     path: /
     src: "UUID={{ root_uuid.stdout }}"
     fstype: ext4
-    opts: "errors=remount-ro,noatime,noadirtime"
+    opts: "errors=remount-ro,noatime,nodiratime"
+    passno: 1
     state: present
