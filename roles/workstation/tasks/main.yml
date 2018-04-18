@@ -12,6 +12,7 @@
     - virtualbox
     - iotop
     - docker.io
+    - filezilla
 
 - name: Check if vagrant is installed
   command: which vagrant
