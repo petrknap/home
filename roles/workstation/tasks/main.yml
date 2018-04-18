@@ -11,6 +11,7 @@
     - php-cli
     - virtualbox
     - iotop
+    - docker.io
 
 - name: Check if vagrant is installed
   command: which vagrant
