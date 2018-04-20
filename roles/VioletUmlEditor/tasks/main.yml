@@ -1,3 +1,9 @@
+- become: yes
+  apt:
+    pkg: default-jre
+    state: present
+    force: yes
+
 - file:
     path: "{{ home_dir }}/.apps/VioletUmlEditor"
     state: directory
