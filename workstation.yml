@@ -8,6 +8,7 @@
     - KeePass
     - PhpStorm
     - VioletUmlEditor
+    - RestBreak
     - workstation
   vars:
     home_dir: /home/dash

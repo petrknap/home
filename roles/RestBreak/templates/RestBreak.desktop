@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Rest Break
+Exec={{ home_dir }}/.apps/RestBreak/8c397e45dd5c39cc291f-201962670cf6b123f6bc539fc7489a03a7fa8785/rest-break
+Icon={{ home_dir }}/.apps/RestBreak/8c397e45dd5c39cc291f-201962670cf6b123f6bc539fc7489a03a7fa8785/icon.png
+Terminal=false
+Type=Application
