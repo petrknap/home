@@ -13,6 +13,7 @@
     - iotop
     - docker.io
     - filezilla
+    - torsocks
 
 - name: Check if vagrant is installed
   command: which vagrant
