@@ -1,14 +1,24 @@
-- file:
+- name: Prepare directory
+  file:
     path: "{{ home_dir }}/.apps/PhpStorm"
     state: directory
 
-- unarchive:
+- name: Download and install
+  unarchive:
     src: https://download.jetbrains.com/webide/PhpStorm-2018.1.1.tar.gz
     dest: "{{ home_dir }}/.apps/PhpStorm"
     creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-181.4445.72"
     remote_src: yes
 
-- template:
+- name: Create desktop shortcut
+  template:
     src: templates/PhpStorm.desktop
     dest: "{{ home_dir }}/Desktop/PhpStorm.desktop"
     mode: 0774
+
+- name: Set inotify watches limit # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: 524288
+    state: present
