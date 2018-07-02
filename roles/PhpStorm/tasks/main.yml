@@ -1,3 +1,9 @@
+- name: Set required version and build
+  set_fact:
+    PhpStorm:
+      version: 2018.1.6
+      build: 181.5281.35
+
 - name: Prepare directory
   file:
     path: "{{ home_dir }}/.apps/PhpStorm"
@@ -5,9 +11,9 @@
 
 - name: Download and install
   unarchive:
-    src: https://download.jetbrains.com/webide/PhpStorm-2018.1.1.tar.gz
+    src: "https://download.jetbrains.com/webide/PhpStorm-{{ PhpStorm.version }}.tar.gz"
     dest: "{{ home_dir }}/.apps/PhpStorm"
-    creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-181.4445.72"
+    creates: "{{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}"
     remote_src: yes
 
 - name: Create desktop shortcut

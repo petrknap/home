@@ -1,22 +1,31 @@
-- file:
+- name: Set required version
+  set_fact:
+    KeePass:
+      version: 2.23.0
+
+- name: Prepare directory
+  file:
     path: "{{ home_dir }}/.apps/KeePass"
     state: directory
 
-- unarchive:
-    src: https://github.com/petrknap/keepass/archive/v2.23.0.zip
+- name: Download
+  unarchive:
+    src: "https://github.com/petrknap/keepass/archive/v{{ KeePass.version }}.zip"
     dest: "{{ home_dir }}/.apps/KeePass"
-    creates: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0"
+    creates: "{{ home_dir }}/.apps/KeePass/keepass-{{ KeePass.version }}"
     remote_src: yes
 
-- command: ./install
+- name: Install
+  command: ./install
   args:
-    chdir: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0"
-    creates: "{{ home_dir }}/.apps/KeePass/keepass-2.23.0/run"
+    chdir: "{{ home_dir }}/.apps/KeePass/keepass-{{ KeePass.version }}"
+    creates: "{{ home_dir }}/.apps/KeePass/keepass-{{ KeePass.version }}/run"
   ignore_errors: yes
 
 # TODO register shortcut
 
-- template:
+- name: Create desktop shortcut
+  template:
     src: templates/KeePass.desktop
     dest: "{{ home_dir }}/Desktop/KeePass.desktop"
     mode: 0774

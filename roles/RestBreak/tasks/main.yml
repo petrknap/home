@@ -1,14 +1,23 @@
-- file:
+- name: Set required version
+  set_fact:
+    RestBreak:
+      gist: 8c397e45dd5c39cc291f
+      commit: 201962670cf6b123f6bc539fc7489a03a7fa8785
+
+- name: Prepare directory
+  file:
     path: "{{ home_dir }}/.apps/RestBreak"
     state: directory
 
-- unarchive:
-    src: https://gist.github.com/petrknap/8c397e45dd5c39cc291f/archive/201962670cf6b123f6bc539fc7489a03a7fa8785.zip
+- name: Download and install
+  unarchive:
+    src: "https://gist.github.com/petrknap/{{ RestBreak.gist }}/archive/{{ RestBreak.commit }}.zip"
     dest: "{{ home_dir }}/.apps/RestBreak"
-    creates: "{{ home_dir }}/.apps/RestBreak/8c397e45dd5c39cc291f-201962670cf6b123f6bc539fc7489a03a7fa8785"
+    creates: "{{ home_dir }}/.apps/RestBreak/{{ RestBreak.gist }}-{{ RestBreak.commit }}"
     remote_src: yes
 
-- template:
+- name: Create desktop shortcut
+  template:
     src: templates/RestBreak.desktop
     dest: "{{ home_dir }}/Desktop/RestBreak.desktop"
     mode: 0774

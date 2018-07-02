@@ -1,20 +1,29 @@
-- become: yes
+- name: Set required version
+  set_fact:
+    VioletUmlEditor:
+      version: 2.1.0
+
+- name: Install needed packages
+  become: yes
   apt:
     pkg: default-jre
     state: present
     force: yes
 
-- file:
+- name: Prepare directory
+  file:
     path: "{{ home_dir }}/.apps/VioletUmlEditor"
     state: directory
 
-- unarchive:
-    src: https://github.com/petrknap/violetumleditor/archive/v2.1.0.zip
+- name: Download and install
+  unarchive:
+    src: "https://github.com/petrknap/violetumleditor/archive/v{{ VioletUmlEditor.version }}.zip"
     dest: "{{ home_dir }}/.apps/VioletUmlEditor"
-    creates: "{{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-2.1.0"
+    creates: "{{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-{{ VioletUmlEditor.version }}"
     remote_src: yes
 
-- template:
+- name: Create desktop shortcut
+  template:
     src: templates/VioletUmlEditor.desktop
     dest: "{{ home_dir }}/Desktop/VioletUmlEditor.desktop"
     mode: 0774
