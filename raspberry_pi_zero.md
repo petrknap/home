@@ -49,3 +49,10 @@ Would you like the SSH server to be enabled? <Yes>
 * * * * * flock --exclusive --nonblock /var/lock/ssh_139.lock --command "/usr/bin/ssh {user}@{public IP} -p 36278 -NL 0.0.0.0:139:127.0.0.1:139" # SMB
 * * * * * flock --exclusive --nonblock /var/lock/ssh_445.lock --command "/usr/bin/ssh {user}@{public IP} -p 36278 -NL 0.0.0.0:139:445.0.0.1:445" # SMB
 ```
+
+## `sudo nano /etc/fstab`
+
+```
+tmpfs   /tmp       tmpfs   defaults,noatime,nosuid            0   0
+tmpfs   /var/log   tmpfs   defaults,noatime,nosuid,size=64m   0   0
+```
