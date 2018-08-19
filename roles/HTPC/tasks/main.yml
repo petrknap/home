@@ -18,6 +18,7 @@
     user: "{{ user }}"
     key: "{{ lookup('file', 'files/' + item + '.pub') }}"
   with_items:
+    - OTG@KeePass
     - petr@PK-HP450G3
     - root@PK-HP450G3
     - windows@PK-HP450G3
