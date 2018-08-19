@@ -72,9 +72,10 @@ Would you like the SSH server to be enabled? <Yes>
 ### `sudo crontab -e`
 
 ```
-* * * * * flock --exclusive --nonblock /var/lock/ssh_80.lock  --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:80:127.0.0.1:8096" # Emby
-* * * * * flock --exclusive --nonblock /var/lock/ssh_139.lock --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:139:127.0.0.1:139" # SMB
-* * * * * flock --exclusive --nonblock /var/lock/ssh_445.lock --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:445:127.0.0.1:445" # SMB
+* * * * * flock --exclusive --nonblock /var/lock/ssh_r_22.lock  --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NR 127.0.0.1:{remote port}:127.0.0.1:22" # Reverse SSH
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_80.lock  --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:80:127.0.0.1:8096" # Emby
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_139.lock --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:139:127.0.0.1:139" # SMB
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_445.lock --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:445:127.0.0.1:445" # SMB
 ```
 
 
