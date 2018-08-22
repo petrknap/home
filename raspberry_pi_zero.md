@@ -71,6 +71,8 @@ Would you like the SSH server to be enabled? <Yes>
 
 ### `sudo crontab -e`
 
+Add these lines:
+
 ```
 * * * * * flock --exclusive --nonblock /var/lock/ssh_r_22.lock  --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NR 127.0.0.1:{remote port}:127.0.0.1:22" # Reverse SSH
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_80.lock  --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:80:127.0.0.1:8096" # Emby
@@ -78,8 +80,12 @@ Would you like the SSH server to be enabled? <Yes>
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_445.lock --command "/usr/bin/ssh {user}@{public IP} -p {public port} -NL 0.0.0.0:445:127.0.0.1:445" # SMB
 ```
 
+Reverse SSH's `{remote port}` must be on high port, `2201` does not work, but `22001` works perfectly.
+
 
 ### `sudo nano /etc/fstab`
+
+Add these lines:
 
 ```
 tmpfs   /tmp       tmpfs   defaults,noatime,nosuid            0   0
