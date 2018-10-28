@@ -54,7 +54,7 @@
     name: "Backup '/home/{{ item }}'"
     hour: 17
     minute: 0
-    job: "/bin/bash -c \"[ '{{ item }}' == 'shared' ] && find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete || find '/media/{{ user }}/backup/home/{{ item }}' -mtime +7 -type f -delete; rsync -rlDWb --suffix=.$(date +'\%Y-\%m-\%d_\%H-\%M') '/home/{{ item }}' '/media/{{ user }}/backup/home'\"" # target is exFAT
+    job: "/bin/bash -c \"[ '{{ item }}' == 'shared' ] && find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete || find '/media/{{ user }}/backup/home/{{ item }}' -mtime +7 -type f -delete; rsync -rlDWb --suffix=.$(date +'\\%Y-\\%m-\\%d_\\%H-\\%M') '/home/{{ item }}' '/media/{{ user }}/backup/home'\"" # target is exFAT
   with_items:
     - shared
     - "{{ samba_users }}"
