@@ -54,7 +54,7 @@
     name: "Backup '/home/{{ item }}'"
     hour: 17
     minute: 0
-    job: "[ '{{ item }}' == 'shared' ] && find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete || find '/media/{{ user }}/backup/home/{{ item }}' -mtime +7 -type f -delete; rsync -rlDWb --suffix=.$(date +'%Y-%m-%d_%H-%M') '/home/{{ item }}' '/media/{{ user }}/backup/home'" # target is exFAT
+    job: "/bin/bash -c \"[ '{{ item }}' == 'shared' ] && find '/media/{{ user }}/backup/home/{{ item }}' -mtime +180 -type f -delete || find '/media/{{ user }}/backup/home/{{ item }}' -mtime +7 -type f -delete; rsync -rlDWb --suffix=.$(date +'%Y-%m-%d_%H-%M') '/home/{{ item }}' '/media/{{ user }}/backup/home'\"" # target is exFAT
   with_items:
     - shared
     - "{{ samba_users }}"
@@ -65,7 +65,7 @@
     name: "Backup '/'"
     hour: 17
     minute: 0
-    job: "'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg')"
+    job: "/bin/bash -c \"'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg')\""
 
 - name: Find rtcwake
   become: yes
