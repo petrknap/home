@@ -48,6 +48,17 @@
     - PREROUTING
     - OUTPUT
 
+- name: "Add links to media directories to users desktop"
+  become: no
+  file:
+    src: "/home/shared/{{ item }}"
+    dest: "{{ home_dir }}/Desktop/{{ item }}"
+    state: link
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: 0400
+  with_items: "{{ emby_media_dirs }}"
+
 - name: Backup /home
   become: yes
   cron:
