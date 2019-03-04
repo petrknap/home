@@ -38,6 +38,7 @@
     chain: "{{ item }}"
     protocol: tcp
     match: tcp
+    destination: "192.168.0.253"
     destination_port: 80
     jump: REDIRECT
     to_ports: 8096
