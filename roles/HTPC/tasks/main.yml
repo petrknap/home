@@ -48,6 +48,22 @@
     - PREROUTING
     - OUTPUT
 
+- name: Assign Emby Web Client to standard HTTPS port
+  become: yes
+  iptables:
+    table: nat
+    chain: "{{ item }}"
+    protocol: tcp
+    match: tcp
+    destination: "192.168.0.253"
+    destination_port: 443
+    jump: REDIRECT
+    to_ports: 8920
+    comment: Assign Emby Web Client to standard HTTPS port
+  with_items:
+    - PREROUTING
+    - OUTPUT
+
 - name: "Add links to media directories to users desktop"
   become: no
   file:
