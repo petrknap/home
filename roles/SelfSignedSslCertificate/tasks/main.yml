@@ -14,17 +14,26 @@
 
 - name: Generate an OpenSSL private key with the default values
   openssl_privatekey:
-    path: '{{ target_path }}/{{ common_name }}.pem'
+    path: '{{ target_path }}/{{ common_name }}.key'
 
 - name: Generate an OpenSSL Certificate Signing Request
   openssl_csr:
     path: '{{ target_path }}/{{ common_name }}.csr'
-    privatekey_path: '{{ target_path }}/{{ common_name }}.pem'
+    privatekey_path: '{{ target_path }}/{{ common_name }}.key'
     common_name: '{{ common_name }}'
 
 - name: Generate a Self Signed OpenSSL certificate
   openssl_certificate:
     path: '{{ target_path }}/{{ common_name }}.crt'
-    privatekey_path: '{{ target_path }}/{{ common_name }}.pem'
+    privatekey_path: '{{ target_path }}/{{ common_name }}.key'
     csr_path: '{{ target_path }}/{{ common_name }}.csr'
     provider: selfsigned
+
+- name: Generate PKCS#12 version of a Self Signed OpenSSL certificate
+  openssl_pkcs12:
+    action: export
+    path: '{{ target_path }}/{{ common_name }}.p12'
+    friendly_name: '{{ common_name }}'
+    privatekey_path: '{{ target_path }}/{{ common_name }}.key'
+    certificate_path: '{{ target_path }}/{{ common_name }}.crt'
+    state: present
