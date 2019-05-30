@@ -29,7 +29,7 @@
     csr_path: '{{ target_path }}/{{ common_name }}.csr'
     provider: selfsigned
 
-- name: Generate PKCS#12 version of a Self Signed OpenSSL certificate
+- name: 'Generate PKCS#12 version of a Self Signed OpenSSL certificate'
   openssl_pkcs12:
     action: export
     path: '{{ target_path }}/{{ common_name }}.p12'
