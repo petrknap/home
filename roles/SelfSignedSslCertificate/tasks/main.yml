@@ -1,3 +1,8 @@
+- name: Ensure python OpenSSL dependencies are installed
+  pip:
+    name: pyOpenSSL
+    state: present
+
 - name: Generate an OpenSSL private key with the default values (4096 bits, RSA)
   openssl_privatekey:
     path: '{{ target_path }}/{{ common_name }}.pem'
