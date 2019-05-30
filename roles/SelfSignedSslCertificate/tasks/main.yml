@@ -3,7 +3,7 @@
     name: pyOpenSSL
     state: present
 
-- name: Generate an OpenSSL private key with the default values (4096 bits, RSA)
+- name: Generate an OpenSSL private key with the default values
   openssl_privatekey:
     path: '{{ target_path }}/{{ common_name }}.pem'
 
