@@ -5,6 +5,10 @@
     - SMB
     - Emby
     - HTPC
+    - role: SelfSignedSslCertificate
+        vars:
+          target_path: "{{ home_dir }}"
+          common_name: prcek.petrknap.cz
     - iptables
   vars:
     user: user

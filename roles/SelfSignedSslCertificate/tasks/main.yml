@@ -1,0 +1,16 @@
+- name: Generate an OpenSSL private key with the default values (4096 bits, RSA)
+  openssl_privatekey:
+    path: '{{ target_path }}/{{ common_name }}.pem'
+
+- name: Generate an OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: '{{ target_path }}/{{ common_name }}.csr'
+    privatekey_path: '{{ target_path }}/{{ common_name }}.pem'
+    common_name: '{{ common_name }}'
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: '{{ target_path }}/{{ common_name }}.crt'
+    privatekey_path: '{{ target_path }}/{{ common_name }}.pem'
+    csr_path: '{{ target_path }}/{{ common_name }}.csr'
+    provider: selfsigned
