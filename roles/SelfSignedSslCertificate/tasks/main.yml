@@ -5,7 +5,7 @@
     state: present
     force: yes
   with_items:
-    - pip
+    - python-pip
 
 - name: Ensure python OpenSSL dependencies are installed
   pip:
