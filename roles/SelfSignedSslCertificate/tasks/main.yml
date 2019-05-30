@@ -1,3 +1,12 @@
+- name: "Install packages"
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - pip
+
 - name: Ensure python OpenSSL dependencies are installed
   pip:
     name: pyOpenSSL
