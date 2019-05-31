@@ -3,12 +3,12 @@
     - Bash
     - GNOME
     - SMB
-    - Emby
-    - HTPC
     - role: SelfSignedSslCertificate
       vars:
-        target_path: "{{ home_dir }}"
+        target_path: "/home"
         common_name: prcek.petrknap.cz
+    - Emby
+    - HTPC
     - iptables
   vars:
     user: user

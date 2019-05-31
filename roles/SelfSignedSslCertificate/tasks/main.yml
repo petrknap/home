@@ -37,3 +37,4 @@
     privatekey_path: '{{ target_path }}/{{ common_name }}.key'
     certificate_path: '{{ target_path }}/{{ common_name }}.crt'
     state: present
+    mode: 0444
