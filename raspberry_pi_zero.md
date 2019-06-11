@@ -89,3 +89,58 @@ Add these lines:
 tmpfs   /tmp       tmpfs   defaults,noatime,nosuid            0   0
 tmpfs   /var/log   tmpfs   defaults,noatime,nosuid,size=64m   0   0
 ```
+
+
+
+## Set up remote backup
+
+
+### Make encrypted backup device
+
+1. `lsblk` to find device
+1. `sudo apt install cryptsetup`
+1. `sudo modprobe dm-crypt sha256 aes` or `sudo reboot`
+1. `sudo cryptsetup --verify-passphrase luksFormat /dev/{device} -c aes -s 256 -h sha256` and use passphrase
+1. `sudo cryptsetup luksOpen /dev/{device} backup`
+1. `sudo mkfs -t ext4 -m 1 /dev/mapper/backup`
+1. `sudo mkdir /media/backup`
+1. `sudo mount /dev/mapper/backup /media/backup/`
+1. `sudo chown pi:pi /media/backup/`
+1. create key file `{path to key file}`
+1. `sudo cryptsetup luksAddKey /dev/{device} {path to key file}`
+1. `sudo nano /etc/crypttab` and insert `backup /dev/{device} {path to key file} luks`
+1. `sudo nano /etc/fstab` and insert `/dev/mapper/backup /media/backup ext4 defaults,rw 0 0`
+
+
+### Create `/home/pi/remote_backup`
+
+```bash
+#!/usr/bin/env bash
+
+if [[ ! -e /media/backup/htpc_home ]]; then
+    mkdir /media/backup/htpc_home
+fi
+
+if [[ ! -e /home/pi/.home ]]; then
+    git clone https://github.com/petrknap/home.git .home
+fi
+
+(
+cd /home/pi/.home
+git reset --hard
+git pull
+./bin/remote_backup "{user}@{public IP}:/home/" {public port} /media/backup/htpc_home "
+*.img
+*/.keep
+"
+)
+```
+
+
+### `crontab -e`
+
+Add this line:
+
+```
+0 12 * * 5 flock --exclusive --nonblock /var/lock/htpc_backup.lock --command "/home/pi/remote_backup"
+```

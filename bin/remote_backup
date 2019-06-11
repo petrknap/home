@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+REMOTE_SOURCE=$1
+REMOTE_PORT=$2
+TARGET=$3
+EXCLUDES=$4
+
+echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
+
+CURRENT_DIR=$(date +'%Y-%m-%d_%H-%M');
+rsync --exclude-from=${TARGET}/excludes.txt \
+      --rsh="ssh -p ${REMOTE_PORT}" \
+      --archive \
+      --human-readable \
+      --progress \
+      --compress \
+      --link-dest=${TARGET}/LAST ${REMOTE_SOURCE} ${TARGET}/$CURRENT_DIR > ${TARGET}/$CURRENT_DIR.log 2>&1 \
+&& (
+    rm ${TARGET}/LAST;
+    ln -s ${TARGET}/$CURRENT_DIR ${TARGET}/LAST
+)
