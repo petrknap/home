@@ -142,5 +142,5 @@ git pull
 Add this line:
 
 ```
-0 12 * * 5 flock --exclusive --nonblock /var/lock/htpc_backup.lock --command "/home/pi/remote_backup"
+0 12 * * 5 flock --exclusive --nonblock /var/lock/remote_backup.lock --command "/home/pi/remote_backup"
 ```
