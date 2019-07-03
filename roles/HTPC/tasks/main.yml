@@ -22,6 +22,7 @@
     - windows@PK-HP450G3
     - windows@R2200G
     - pi@raspberry_pi_zero_1
+    - pi@raspberry_pi_zero_2
 
 - name: Disallow password authentication
   become: yes
