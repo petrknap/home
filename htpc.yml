@@ -15,6 +15,7 @@
     home_dir: "/home/{{ user }}"
     samba_users_home_size__mb_per_user: 102400
     samba_users:
+      - michaela
       - petr
       - sona
       - zdenek
