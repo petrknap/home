@@ -122,7 +122,7 @@ if [[ ! -e /media/backup/htpc_home ]]; then
 fi
 
 if [[ ! -e /home/pi/.home ]]; then
-    git clone https://github.com/petrknap/home.git .home
+    git clone https://github.com/petrknap/home.git /home/pi/.home
 fi
 
 (
