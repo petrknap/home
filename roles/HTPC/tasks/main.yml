@@ -21,8 +21,8 @@
     - root@PK-HP450G3
     - windows@PK-HP450G3
     - windows@R2200G
-    - pi@raspberry_pi_zero_1
-    - pi@raspberry_pi_zero_2
+    - pi@raspberry-pi-zero-1
+    - pi@raspberry-pi-zero-2
 
 - name: Disallow password authentication
   become: yes
