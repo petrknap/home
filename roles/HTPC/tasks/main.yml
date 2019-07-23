@@ -76,24 +76,13 @@
     mode: 0400
   with_items: "{{ emby_media_dirs }}"
 
-- name: Backup /home
-  become: yes
-  cron:
-    name: "Backup '/home/{{ item }}'"
-    hour: 17
-    minute: 0
-    job: "/bin/bash -c \"CURRENT_BACKUP=\\$(date +'\\%Y-\\%m-\\%d_\\%H-\\%M'); find /media/{{ user }}/backup/home/{{ item }}/ -maxdepth 1 -type d -ctime {% if item == 'shared' %}+180{% else %}+7{% endif %} -exec rm -rv {} \\;; rsync --progress --archive --link-dest=/media/{{ user }}/backup/home/{{ item }}/LAST /home/{{ item }}/ /media/{{ user }}/backup/home/{{ item }}/\\$CURRENT_BACKUP && (rm /media/{{ user }}/backup/home/{{ item }}/LAST; ln -s /media/{{ user }}/backup/home/{{ item }}/\\$CURRENT_BACKUP /media/{{ user }}/backup/home/{{ item }}/LAST)\" &>/home/{{ item }}.log" # target is Ext4
-  with_items:
-    - shared
-    - "{{ samba_users }}"
-
 - name: Backup /
   become: yes
   cron:
     name: "Backup '/'"
     hour: 17
     minute: 0
-    job: "/bin/bash -c \"'/home/{{ user }}/backup' && (rm '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; mv '/media/{{ user }}/backup/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg.old'; cp '/home/{{ user }}/backup.tar.gz.gpg' '/media/{{ user }}/backup/backup.tar.gz.gpg')\""
+    job: "/bin/bash -c \"'/home/{{ user }}/backup'\""
 
 - name: Find rtcwake
   become: yes
