@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+REMOTE=$1
+TARGET=$2
+USER=$3
+PASSWORD=$4
+
+rm --recursive "${TARGET}" "${TARGET}.tmp"; \
+mkdir --parents "${TARGET}" "${TARGET}.tmp" && \
+wget --mirror \
+     --no-parent \
+     --user="${USER}" \
+     --password="${PASSWORD}" \
+     --directory-prefix="${TARGET}.tmp" \
+     "${REMOTE}" > "${TARGET}.log" 2>&1 && \
+rsync --archive \
+      "${TARGET}.tmp/"*/ \
+      "${TARGET}/";  \
+rm --recursive "${TARGET}.tmp"; \

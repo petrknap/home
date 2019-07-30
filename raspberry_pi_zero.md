@@ -129,6 +129,7 @@ fi
 cd /home/pi/.home
 git reset --hard
 git pull
+./bin/wget_mirror "ftp://{public IP}:{public port}/{folder}" /media/backup/ftp_folder {user} {password}
 ./bin/remote_backup "{user}@{public IP}:/home/" {public port} /media/backup/htpc_home "
 *.img
 */.keep
