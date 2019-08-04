@@ -9,6 +9,7 @@ rm --recursive "${TARGET}" "${TARGET}.tmp"; \
 mkdir --parents "${TARGET}" "${TARGET}.tmp" && \
 wget --mirror \
      --no-parent \
+     --no-check-certificate \
      --user="${USER}" \
      --password="${PASSWORD}" \
      --directory-prefix="${TARGET}.tmp" \
