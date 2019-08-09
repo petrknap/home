@@ -1,0 +1,22 @@
+- name: Set required version
+  set_fact:
+    Postman:
+      version: 7.3.6
+
+- name: Prepare directory
+  file:
+    path: "{{ home_dir }}/.apps/Postman"
+    state: directory
+
+- name: Download and install
+  unarchive:
+    src: "https://dl.pstmn.io/download/version/{{ Postman.version }}/linux64"
+    dest: "{{ home_dir }}/.apps/Postman"
+    creates: "{{ home_dir }}/.apps/Postman/Postman"
+    remote_src: yes
+
+- name: Create desktop shortcut
+  template:
+    src: templates/Postman.desktop
+    dest: "{{ home_dir }}/Desktop/Postman.desktop"
+    mode: 0774
