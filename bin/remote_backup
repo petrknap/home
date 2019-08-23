@@ -7,16 +7,23 @@ EXCLUDES=$4
 
 echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
 
-CURRENT_DIR=$(date +'%Y-%m-%d_%H-%M');
+CURRENT_DIR=$(date +'%Y-%m-%d_%H-%M')
 rsync --exclude-from="${TARGET}/excludes.txt" \
       --rsh="ssh -p ${REMOTE_PORT}" \
       --archive \
       --human-readable \
       --progress \
       --compress \
-      --link-dest="${TARGET}/LAST" "${REMOTE_SOURCE}" "${TARGET}/${CURRENT_DIR}.tmp" > "${TARGET}/${CURRENT_DIR}.log" 2>&1 \
+      --link-dest="${TARGET}/LAST" \
+      --link-dest="${TARGET}/LAST.tmp" \
+      "${REMOTE_SOURCE}" "${TARGET}/${CURRENT_DIR}.tmp" > "${TARGET}/${CURRENT_DIR}.log" 2>&1 \
 && mv "${TARGET}/${CURRENT_DIR}.tmp" "${TARGET}/${CURRENT_DIR}" \
 && (
     rm "${TARGET}/LAST";
     ln -s "${TARGET}/${CURRENT_DIR}" "${TARGET}/LAST"
+    rm "${TARGET}/LAST.tmp";
+) \
+|| (
+    rm "${TARGET}/LAST.tmp";
+    ln -s "${TARGET}/${CURRENT_DIR}.tmp" "${TARGET}/LAST.tmp"
 )
