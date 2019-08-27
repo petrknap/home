@@ -4,12 +4,18 @@ REMOTE_SOURCE=$1
 REMOTE_PORT=$2
 TARGET=$3
 EXCLUDES=$4
+BANDWIDTH___KBps=$5
+
+if [[ "${BANDWIDTH___KBps}" == "" ]]; then
+    BANDWIDTH___KBps=1073741824
+fi
 
 echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
 
 CURRENT_DIR=$(date +'%Y-%m-%d_%H-%M')
 rsync --exclude-from="${TARGET}/excludes.txt" \
       --rsh="ssh -p ${REMOTE_PORT}" \
+      --bwlimit="${BANDWIDTH___KBps}" \
       --archive \
       --human-readable \
       --progress \
