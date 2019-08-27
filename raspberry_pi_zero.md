@@ -133,7 +133,7 @@ git pull
 ./bin/remote_backup "{user}@{public IP}:/home/" {public port} /media/backup/htpc_home "
 *.img
 */.keep
-"
+" 200
 )
 ```
 
