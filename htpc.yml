@@ -6,7 +6,9 @@
     - role: LetsEncrypt
       vars:
         domain: prcek.petrknap.cz
-    - Emby
+    - role: Emby
+      vars:
+        domain: prcek.petrknap.cz
     - HTPC
     - iptables
   vars:
