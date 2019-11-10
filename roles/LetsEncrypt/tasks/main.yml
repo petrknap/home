@@ -1,0 +1,24 @@
+- set_fact:
+    run_certbot: docker run --rm --name certbot -p 8080:80 -v /etc/letsencrypt:/etc/letsencrypt -v /var/lib/letsencrypt:/var/lib/letsencrypt certbot/certbot --non-interactive --standalone
+
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg:
+      - docker.io
+    state: present
+    force: yes
+
+- name: "Generate certificate for {{ domain }}"
+  become: yes
+  command: "{{ run_certbot }} certonly --agree-tos --register-unsafely-without-email -d {{ domain }}"
+  args:
+    creates: "/etc/letsencrypt/live/{{ domain }}"
+
+- name: "Regenerate certificates"
+  become: yes
+  cron:
+    name: "Regenerate certificates"
+    hour: "*/6"
+    minute: 0
+    job: "{{ run_certbot }} renew"

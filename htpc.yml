@@ -3,10 +3,9 @@
     - Bash
     - GNOME
     - SMB
-    - role: SelfSignedSslCertificate
+    - role: LetsEncrypt
       vars:
-        target_path: "/home"
-        common_name: prcek.petrknap.cz
+        domain: prcek.petrknap.cz
     - Emby
     - HTPC
     - iptables
