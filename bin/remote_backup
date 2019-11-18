@@ -20,6 +20,7 @@ rsync --exclude-from="${TARGET}/excludes.txt" \
       --human-readable \
       --progress \
       --compress \
+      --checksum \
       --link-dest="${TARGET}/LAST" \
       --link-dest="${TARGET}/LAST.tmp" \
       "${REMOTE_SOURCE}" "${TARGET}/${CURRENT_DIR}.tmp" > "${TARGET}/${CURRENT_DIR}.log" 2>&1 \
