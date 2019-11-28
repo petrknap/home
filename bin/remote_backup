@@ -7,9 +7,12 @@ TARGET="${3}"
 EXCLUDES="${4}"
 BANDWIDTH___KBps="${5}"
 
-if [[ "${BANDWIDTH___KBps}" == "" ]]; then
+if [[ "${BANDWIDTH___KBps}" == "" ]]; then (
     BANDWIDTH___KBps=1073741824
-fi
+    shift 4
+); else (
+    shift 5
+); fi
 
 echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
 
