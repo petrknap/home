@@ -10,9 +10,20 @@ if [[ "${BANDWIDTH___KBps}" == "" ]]; then
     BANDWIDTH___KBps=1073741824
 fi
 
+LAST_SUCCESSFUL_DEST="${TARGET}/LAST"
+LAST_DEST="${LAST_SUCCESSFUL_DEST}.tmp"
+CURRENT_DIR="$(date +'%Y-%m-%d_%H-%M')"
+
+if [[ -e "${LAST_SUCCESSFUL_DEST}" ]]; then
+    ln -s "${TARGET}/${CURRENT_DIR}" "${LAST_SUCCESSFUL_DEST}"
+fi
+
+if [[ -e "${LAST_DEST}" ]]; then
+    ln -s "${LAST_SUCCESSFUL_DEST}" "${LAST_DEST}"
+fi
+
 echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
 
-CURRENT_DIR=$(date +'%Y-%m-%d_%H-%M')
 rsync --exclude-from="${TARGET}/excludes.txt" \
       --rsh="ssh -o ServerAliveInterval=60 -p ${REMOTE_PORT}" \
       --bwlimit="${BANDWIDTH___KBps}" \
@@ -20,16 +31,16 @@ rsync --exclude-from="${TARGET}/excludes.txt" \
       --human-readable \
       --progress \
       --compress \
-      --link-dest="${TARGET}/LAST" \
-      --link-dest="${TARGET}/LAST.tmp" \
+      --link-dest="${LAST_SUCCESSFUL_DEST}" \
+      --link-dest="${LAST_DEST}" \
       "${REMOTE_SOURCE}" "${TARGET}/${CURRENT_DIR}.tmp" > "${TARGET}/${CURRENT_DIR}.log" 2>&1 \
 && mv "${TARGET}/${CURRENT_DIR}.tmp" "${TARGET}/${CURRENT_DIR}" \
 && (
-    rm "${TARGET}/LAST";
-    ln -s "${TARGET}/${CURRENT_DIR}" "${TARGET}/LAST"
-    rm "${TARGET}/LAST.tmp";
+    rm "${LAST_SUCCESSFUL_DEST}";
+    ln -s "${TARGET}/${CURRENT_DIR}" "${LAST_SUCCESSFUL_DEST}"
+    rm "${LAST_DEST}";
 ) \
 || (
-    rm "${TARGET}/LAST.tmp";
-    ln -s "${TARGET}/${CURRENT_DIR}.tmp" "${TARGET}/LAST.tmp"
+    rm "${LAST_DEST}";
+    ln -s "${TARGET}/${CURRENT_DIR}.tmp" "${LAST_DEST}"
 )
