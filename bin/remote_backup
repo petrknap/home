@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-set -e
 
-REMOTE_SOURCE="${1}"
-REMOTE_PORT="${2}"
-TARGET="${3}"
-EXCLUDES="${4}"
-BANDWIDTH___KBps="${5}"
+REMOTE_SOURCE=$1
+REMOTE_PORT=$2
+TARGET=$3
+EXCLUDES=$4
+BANDWIDTH___KBps=$5
 
 if [[ "${BANDWIDTH___KBps}" == "" ]]; then
     BANDWIDTH___KBps=1073741824
@@ -21,10 +20,10 @@ rsync --exclude-from="${TARGET}/excludes.txt" \
       --human-readable \
       --progress \
       --compress \
+      --checksum \
       --link-dest="${TARGET}/LAST" \
       --link-dest="${TARGET}/LAST.tmp" \
       "${REMOTE_SOURCE}" "${TARGET}/${CURRENT_DIR}.tmp" > "${TARGET}/${CURRENT_DIR}.log" 2>&1 \
-      "${@}" \
 && mv "${TARGET}/${CURRENT_DIR}.tmp" "${TARGET}/${CURRENT_DIR}" \
 && (
     rm "${TARGET}/LAST";
