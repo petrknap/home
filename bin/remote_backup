@@ -14,11 +14,11 @@ LAST_SUCCESSFUL_DEST="${TARGET}/LAST"
 LAST_DEST="${LAST_SUCCESSFUL_DEST}.tmp"
 CURRENT_DIR="$(date +'%Y-%m-%d_%H-%M')"
 
-if [[ -e "${LAST_SUCCESSFUL_DEST}" ]]; then
+if [[ ! -e "${LAST_SUCCESSFUL_DEST}" ]]; then
     ln -s "${TARGET}/${CURRENT_DIR}" "${LAST_SUCCESSFUL_DEST}"
 fi
 
-if [[ -e "${LAST_DEST}" ]]; then
+if [[ ! -e "${LAST_DEST}" ]]; then
     ln -s "${LAST_SUCCESSFUL_DEST}" "${LAST_DEST}"
 fi
 
