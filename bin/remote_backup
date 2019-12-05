@@ -26,20 +26,21 @@ rsync --exclude-from=\"${EXCLUDE_LIST}\" \
 echo "${EXCLUDES}" > "${EXCLUDE_LIST}"
 
 if [[ -e "${LAST_SUCCESSFUL_DEST}" ]]; then (
-    echo "Linking files from last successful backup..." > "${LOG_FILE}"
+    echo "Linking files from last successful backup..." >> "${LOG_FILE}"
     bash -c "${RSYNC} --link-dest=\"${LAST_SUCCESSFUL_DEST}/\" \"${LAST_SUCCESSFUL_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
 if [[ -e "${LAST_DEST}" ]]; then (
-    echo "Linking files from last backup..." > "${LOG_FILE}"
+    echo "Linking files from last backup..." >> "${LOG_FILE}"
     bash -c "${RSYNC} --link-dest=\"${LAST_DEST}/\" \"${LAST_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
-bash -c "echo \"Checking existing files...\" > \"${LOG_FILE}\" \
+bash -c " \
+   echo \"Checking existing files...\" >> \"${LOG_FILE}\" \
 && ${RSYNC} --existing \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
-&& echo \"Downloading new files...\" > \"${LOG_FILE}\" \
+&& echo \"Downloading new files...\" >> \"${LOG_FILE}\" \
 && ${RSYNC} --ignore-existing \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
-&& echo \"Removing deleted files...\" > \"${LOG_FILE}\" \
+&& echo \"Removing deleted files...\" >> \"${LOG_FILE}\" \
 && ${RSYNC} --delete \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
 && mv \"${WORKING_DIR}\" \"${FINAL_DIR}\" \
 && ( \
