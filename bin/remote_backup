@@ -36,11 +36,7 @@ if [[ -e "${LAST_DEST}" ]]; then (
 ); fi
 
 bash -c " \
-   echo \"Checking existing files...\" >> \"${LOG_FILE}\" \
-&& ${RSYNC} --existing \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
-&& echo \"Downloading new files...\" >> \"${LOG_FILE}\" \
-&& ${RSYNC} --ignore-existing \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
-&& echo \"Removing deleted files...\" >> \"${LOG_FILE}\" \
+   echo \"Downloading remote files...\" >> \"${LOG_FILE}\" \
 && ${RSYNC} --delete \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
 && mv \"${WORKING_DIR}\" \"${FINAL_DIR}\" \
 && ( \
