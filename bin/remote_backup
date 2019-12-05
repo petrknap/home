@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 REMOTE_SOURCE="${1}"
 REMOTE_PORT="${2}"
@@ -6,8 +7,8 @@ TARGET="${3}"
 EXCLUDES="${4}"
 ARGUMENTS="${5}"
 
-LAST_SUCCESSFUL_DEST="${TARGET}/LAST"
-LAST_DEST="${LAST_SUCCESSFUL_DEST}.tmp"
+LAST_FINAL_DIR="${TARGET}/LAST"
+LAST_WORKING_DIR="${LAST_FINAL_DIR}.tmp"
 CURRENT_DIR="$(date +'%Y-%m-%d_%H-%M')"
 FINAL_DIR="${TARGET}/${CURRENT_DIR}"
 WORKING_DIR="${FINAL_DIR}.tmp"
@@ -25,27 +26,26 @@ rsync --exclude-from=\"${EXCLUDE_LIST}\" \
 
 echo "${EXCLUDES}" > "${EXCLUDE_LIST}"
 
-if [[ -e "${LAST_SUCCESSFUL_DEST}" ]]; then (
-    echo "Linking files from last successful backup..." >> "${LOG_FILE}"
-    bash -c "${RSYNC} --link-dest=\"${LAST_SUCCESSFUL_DEST}/\" \"${LAST_SUCCESSFUL_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
+if [[ -e "${LAST_WORKING_DIR}" ]]; then (
+    echo "Linking files from last working dir..." >> "${LOG_FILE}"
+    bash -c "${RSYNC} --link-dest=\"${LAST_WORKING_DIR}/\" \"${LAST_WORKING_DIR}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
-if [[ -e "${LAST_DEST}" ]]; then (
-    echo "Linking files from last backup..." >> "${LOG_FILE}"
-    bash -c "${RSYNC} --link-dest=\"${LAST_DEST}/\" \"${LAST_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
+if [[ -e "${LAST_FINAL_DIR}" ]]; then (
+    RSYNC="${RSYNC} --link-dest=\"${LAST_FINAL_DIR}/\""
 ); fi
 
 bash -c " \
-   echo \"Downloading remote files...\" >> \"${LOG_FILE}\" \
-&& ${RSYNC} --delete \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
+   echo \"Running backup...\" >> \"${LOG_FILE}\" \
+&& ${RSYNC} \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
 && mv \"${WORKING_DIR}\" \"${FINAL_DIR}\" \
 && ( \
-    rm \"${LAST_SUCCESSFUL_DEST}\"; \
-    ln -s \"${FINAL_DIR}\" \"${LAST_SUCCESSFUL_DEST}\"; \
-    rm \"${LAST_DEST}\"; \
+    rm \"${LAST_FINAL_DIR}\"; \
+    ln -s \"${FINAL_DIR}\" \"${LAST_FINAL_DIR}\"; \
+    rm \"${LAST_WORKING_DIR}\"; \
 ) \
 || ( \
-    rm "${LAST_DEST}"; \
-    ln -s "${WORKING_DIR}" "${LAST_DEST}"; \
+    rm "${LAST_WORKING_DIR}"; \
+    ln -s "${WORKING_DIR}" "${LAST_WORKING_DIR}"; \
 ) \
 "
