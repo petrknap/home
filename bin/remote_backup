@@ -26,11 +26,11 @@ rsync --exclude-from=\"${EXCLUDE_LIST}\" \
 echo "${EXCLUDES}" > "${EXCLUDE_LIST}"
 
 if [[ -e "${LAST_SUCCESSFUL_DEST}" ]]; then (
-    bash -c "${RSYNC} --link-dest=\"${LAST_SUCCESSFUL_DEST}\" \"${LAST_SUCCESSFUL_DEST}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
+    bash -c "${RSYNC} --link-dest=\"${LAST_SUCCESSFUL_DEST}/\" \"${LAST_SUCCESSFUL_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
 if [[ -e "${LAST_DEST}" ]]; then (
-    bash -c "${RSYNC} --link-dest=\"${LAST_DEST}\" \"${LAST_DEST}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
+    bash -c "${RSYNC} --link-dest=\"${LAST_DEST}/\" \"${LAST_DEST}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
 bash -c " \
