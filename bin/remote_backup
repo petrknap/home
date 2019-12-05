@@ -31,13 +31,13 @@ if [[ -e "${LAST_WORKING_DIR}" ]]; then (
     bash -c "${RSYNC} --link-dest=\"${LAST_WORKING_DIR}/\" \"${LAST_WORKING_DIR}/\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1"
 ); fi
 
-if [[ -e "${LAST_FINAL_DIR}" ]]; then (
-    RSYNC="${RSYNC} --link-dest=\"${LAST_FINAL_DIR}/\""
+if [[ ! -e "${LAST_FINAL_DIR}" ]]; then (
+    ln -s /tmp "${LAST_FINAL_DIR}"
 ); fi
 
 bash -c " \
    echo \"Running backup...\" >> \"${LOG_FILE}\" \
-&& ${RSYNC} \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
+&& ${RSYNC} --link-dest=\"${LAST_FINAL_DIR}/\" \"${REMOTE_SOURCE}\" \"${WORKING_DIR}\" >> \"${LOG_FILE}\" 2>&1 \
 && mv \"${WORKING_DIR}\" \"${FINAL_DIR}\" \
 && ( \
     rm \"${LAST_FINAL_DIR}\"; \
