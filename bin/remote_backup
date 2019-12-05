@@ -20,7 +20,7 @@ fi
 echo "${EXCLUDES}" > "${TARGET}/excludes.txt"
 
 CURRENT_DIR="$(date +'%Y-%m-%d_%H-%M')"
-bash -c " \
+RSYNC=" \
 rsync --exclude-from=\"${TARGET}/excludes.txt\" \
       --rsh=\"ssh -o ServerAliveInterval=60 -p ${REMOTE_PORT}\" \
       --archive \
@@ -28,7 +28,11 @@ rsync --exclude-from=\"${TARGET}/excludes.txt\" \
       --progress \
       --compress \
       ${ARGUMENTS} \
-      \"${REMOTE_SOURCE}\" \"${TARGET}/${CURRENT_DIR}.tmp\" > \"${TARGET}/${CURRENT_DIR}.log\" 2>&1 \
+"
+
+bash -c " \
+${RSYNC} --existing \"${REMOTE_SOURCE}\" \"${TARGET}/${CURRENT_DIR}.tmp\" > \"${TARGET}/${CURRENT_DIR}.log\" 2>&1 \
+&& ${RSYNC} --ignore-existing \"${REMOTE_SOURCE}\" \"${TARGET}/${CURRENT_DIR}.tmp\" >> \"${TARGET}/${CURRENT_DIR}.log\" 2>&1 \
 && mv \"${TARGET}/${CURRENT_DIR}.tmp\" \"${TARGET}/${CURRENT_DIR}\" \
 && ( \
     rm \"${LAST_SUCCESSFUL_DEST}\"; \
