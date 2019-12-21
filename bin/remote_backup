@@ -6,6 +6,7 @@ REMOTE_PORT="${2}"
 TARGET="${3}"
 EXCLUDES="${4}"
 ARGUMENTS="${5}"
+BACKUP_ID="${6}"
 
 LAST_FINAL_DIR="${TARGET}/LAST"
 LAST_WORKING_DIR="${LAST_FINAL_DIR}.tmp"
@@ -43,6 +44,7 @@ bash -c " \
     rm \"${LAST_FINAL_DIR}\"; \
     ln -s \"${FINAL_DIR}\" \"${LAST_FINAL_DIR}\"; \
     rm \"${LAST_WORKING_DIR}\"; \
+    if [[ \"${BACKUP_ID}\" != \"\" ]]; then wget -O- \"https://backup.petrknap.cz/touch.php?id=${BACKUP_ID}\"; fi \
 ) \
 || ( \
     rm "${LAST_WORKING_DIR}"; \
