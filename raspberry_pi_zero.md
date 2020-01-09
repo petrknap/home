@@ -116,24 +116,53 @@ tmpfs   /var/log   tmpfs   defaults,noatime,nosuid,size=64m   0   0
 
 ```bash
 #!/usr/bin/env bash
+set -e
 
-if [[ ! -e /media/backup/htpc_home ]]; then
-    mkdir /media/backup/htpc_home
-fi
+BACKUP="$1"
+shift 1
 
-if [[ ! -e /home/pi/.home ]]; then
-    git clone https://github.com/petrknap/home.git /home/pi/.home
-fi
+if [[ ! -e "/home/pi/.home" ]]; then (
+    git clone "https://github.com/petrknap/home.git" "/home/pi/.home"
+); fi
 
 (
-cd /home/pi/.home
+cd "/home/pi/.home"
 git reset --hard
 git pull
-./bin/wget_mirror "ftp://{public IP}:{public port}/{folder}" /media/backup/ftp_folder {user} {password}
-./bin/remote_backup "{user}@{public IP}:/home/" {public port} /media/backup/htpc_home "
+
+#region home
+if [[ "${BACKUP}" == "server" ]]; then (
+
+if [[ ! -e "/media/backup/server" ]]; then
+    mkdir "/media/backup/server"
+fi
+
+./bin/remote_backup "{user}@{public IP}:/home/" {public port} "/media/backup/server" "
 *.img
 */.keep
-" 200
+user/.cache
+user/.config
+" "--bwlimit=200 --size-only" "${BACKUP}"
+); fi
+#endregion
+
+#region hosting
+if [[ "${BACKUP}" == "hosting" ]]; then (
+
+if [[ ! -e "/media/backup/hosting" ]]; then
+    mkdir "/media/backup/hosting"
+fi
+
+if [[ ! -e "/media/backup/ftp/hosting" ]]; then
+    mkdir -p "/media/backup/ftp/hosting"
+fi
+
+./bin/wget_mirror "ftp://{public IP}:{public port}/{folder}" "/media/backup/ftp" {user} {password}
+./bin/remote_backup "/media/backup/ftp/hosting" 22 "/media/backup/hosting" "
+*/.listing
+" "" "${BACKUP}"
+); fi
+#endregion
 )
 ```
 
@@ -143,5 +172,6 @@ git pull
 Add this line:
 
 ```
-0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup.lock --command "/home/pi/remote_backup"
+0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup-server.lock --command "/home/pi/remote_backup server"
+0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup-hosting.lock --command "/home/pi/remote_backup hosting"
 ```
