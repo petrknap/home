@@ -127,10 +127,28 @@ if [[ ! -e "/home/pi/.home" ]]; then (
 
 (
 cd "/home/pi/.home"
+(
+flock -e 200
 git reset --hard
 git pull
+) 200>/var/lock/remote_backup.lock
 
-#region home
+#region local
+if [[ "${BACKUP}" == "local" ]]; then (
+
+if [[ ! -e "/media/backup/local" ]]; then
+    mkdir "/media/backup/local"
+fi
+
+./bin/remote_backup "/home/pi" 22 "/media/backup/local" "
+.home
+.cache
+.config
+" "" "${BACKUP}"
+); fi
+#endregion
+
+#region server
 if [[ "${BACKUP}" == "server" ]]; then (
 
 if [[ ! -e "/media/backup/server" ]]; then
@@ -172,6 +190,7 @@ fi
 Add this line:
 
 ```
+0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup-local.lock --command "/home/pi/remote_backup local"
 0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup-server.lock --command "/home/pi/remote_backup server"
 0 12 * * * flock --exclusive --nonblock /var/lock/remote_backup-hosting.lock --command "/home/pi/remote_backup hosting"
 ```
