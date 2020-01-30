@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=PyCharm
+Exec={{ home_dir }}/.apps/PyCharm/pycharm-community-{{ PyCharm.build }}/bin/pycharm.sh
+Icon={{ home_dir }}/.apps/PyCharm/pycharm-community-{{ PyCharm.build }}/bin/pycharm.png
+Terminal=false
+Type=Application

@@ -1,0 +1,30 @@
+- name: Set required version and build
+  set_fact:
+    PyCharm:
+      version: 2019.3.2
+      build: 2019.3.2
+
+- name: Prepare directory
+  file:
+    path: "{{ home_dir }}/.apps/PyCharm"
+    state: directory
+
+- name: Download and install
+  unarchive:
+    src: "https://download.jetbrains.com/python/pycharm-community-{{ PyCharm.version }}.tar.gz"
+    dest: "{{ home_dir }}/.apps/PyCharm"
+    creates: "{{ home_dir }}/.apps/PyCharm/pycharm-community-{{ PyCharm.build }}"
+    remote_src: yes
+
+- name: Create desktop shortcut
+  template:
+    src: templates/PyCharm.desktop
+    dest: "{{ home_dir }}/Desktop/PyCharm.desktop"
+    mode: 0774
+
+- name: Set inotify watches limit # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: 524288
+    state: present
