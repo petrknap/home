@@ -1,5 +1,8 @@
 - set_fact:
-    create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out {{ home_dir }}/{{ domain}}.p12 -passout pass:"
+    emby:
+      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out {{ data_directory }}/{{ domain}}.p12 -passout pass:"
+      data_directory: /var/lib/emby
+      new_data_directory: "{{ data_directory}}/emby"
 
 - name: "Check if server is installed"
   command: dpkg-query -W emby-server
@@ -9,7 +12,7 @@
 
 - name: "Download server"
   get_url:
-    url: https://github.com/MediaBrowser/Emby.Releases/releases/download/3.5.0.0/emby-server-deb_3.5.0.0_amd64.deb
+    url: "https://github.com/MediaBrowser/Emby.Releases/releases/download/{{ version }}/emby-server-deb_{{ version }}_{{ architecture }}.deb"
     dest: /tmp/emby-server.deb
   when: dpkg_emby.rc == 1
 
@@ -25,45 +28,70 @@
     name: emby-server
     enabled: yes
 
-- name: "Create shared-home directory"
+- name: "Create shared directory"
   become: yes
   file:
-    path: /home/shared
+    path: "{{ shared_directory }}"
     state: directory
     owner: nobody
     group: nogroup
     mode: 0777
+
+- name: "Create new data directory"
+  become: yes
+  file:
+    path: "{{ emby.new_data_directory }}"
+    state: directory
+    owner: emby
+    group: emby
+    mode: 0700
+
+- name: Remove old data directory
+  become: yes
+  file:
+    path: "{{ emby.data_directory }}"
+    state: absent
+
+- name: Link new data directory
+  become: yes
+  file:
+    src: "{{ emby.new_data_directory }}"
+    dest: "{{ emby.data_directory }}"
+    state: link
+    owner: emby
+    group: emby
+    mode: 0400
 
 - name: "Create media directories"
   become: yes
   file:
-    path: "/home/shared/{{ item }}"
+    path: "{{ shared_directory }}/{{ item }}"
     state: directory
     owner: nobody
     group: nogroup
     mode: 0777
-  with_items: "{{ emby_media_dirs }}"
+  with_items: "{{ media_directories }}"
 
 - name: "Prevent media directories deletion"
   become: yes
   file:
-    path: "/home/shared/{{ item }}/.keep"
+    path: "{{ shared_directory }}/{{ item }}/.keep"
     state: touch
     owner: nobody
     group: nogroup
     mode: 0000
-  with_items: "{{ emby_media_dirs }}"
+  with_items: "{{ media_directories }}"
 
 - name: Grant permissions to emby
   become: yes
   cron:
-    name: "Grant permissions to emby on '/home/shared/{{ item }}/'"
+    name: "Grant permissions to emby on '{{ shared_directory }}/{{ item }}/'"
     special_time: hourly
-    job: "chgrp --recursive emby '/home/shared/{{ item }}/' && chmod --recursive g-x+rwX '/home/shared/{{ item }}/'"
-  with_items: "{{ emby_media_dirs }}"
+    job: "chgrp --recursive emby '{{ shared_directory }}/{{ item }}/' && chmod --recursive g-x+rwX '{{ shared_directory }}/{{ item }}/'"
+  with_items: "{{ media_directories }}"
 
 - name: "Generate PKCS#12 version of certificate for {{ domain }}"
-  command: "{{ create_p12 }}"
+  command: "{{ emby.create_p12 }}"
 
 - name: "Regenerate PKCS#12 version of certificate for {{ domain }}"
   become: yes
@@ -72,7 +100,7 @@
     hour: 0
     minute: 0
     day: 1
-    job: "{{ create_p12 }} && service emby-server restart"
+    job: "{{ emby.create_p12 }} && service emby-server restart"
 
 - name: "Start server"
   become: yes

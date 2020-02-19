@@ -1,17 +1,8 @@
-- lineinfile:
-    path: "{{ home_dir }}/.bash_aliases"
+- name: Set up aliases
+  lineinfile:
+    path: "/home/{{ user }}/.bash_aliases"
     backup: yes
     create: yes
     line: "alias {{ item }}"
   with_items:
     - ll='ls -alF'
-
-- copy:
-    src: files/backup.bash
-    dest: "{{ home_dir }}/backup"
-    mode: 0544
-
-- copy:
-    content: "{{ lookup('password', home_dir + '/backup.key length=1024') }}"
-    dest: "{{ home_dir }}/backup.key" # hack to remove new line at the end of generated file by lookup
-    mode: 0400

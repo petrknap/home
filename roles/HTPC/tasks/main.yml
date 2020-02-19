@@ -11,6 +11,24 @@
     - mc
     - nano
 
+- name: Mount data volume
+  become: yes
+  mount:
+    path: "{{ data_directory }}"
+    src: "{{ data_volume }}"
+    fstype: ext4
+    opts: defaults,relatime,nofail
+    state: mounted
+
+- name: Mount shared directory as home
+  become: yes
+  mount:
+    path: /home/shared
+    src: "{{ shared_directory }}"
+    fstype: none
+    opts: bind,nofail
+    state: mounted
+
 - name: Authorize public key
   authorized_key:
     user: "{{ user }}"
@@ -40,7 +58,7 @@
     chain: "{{ item }}"
     protocol: tcp
     match: tcp
-    destination: "192.168.0.253"
+    destination: "{{ local_ip }}"
     destination_port: 80
     jump: REDIRECT
     to_ports: 8096
@@ -56,7 +74,7 @@
     chain: "{{ item }}"
     protocol: tcp
     match: tcp
-    destination: "192.168.0.253"
+    destination: "{{ local_ip }}"
     destination_port: 443
     jump: REDIRECT
     to_ports: 8920
@@ -66,40 +84,13 @@
     - OUTPUT
 
 - name: "Add links to media directories to users desktop"
-  become: no
+  become: yes
   file:
-    src: "/home/shared/{{ item }}"
-    dest: "{{ home_dir }}/Desktop/{{ item }}"
+    src: "{{ shared_directory }}/{{ item }}"
+    dest: "/home/{{ user }}/Desktop/{{ item }}"
     state: link
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: 0400
-  with_items: "{{ emby_media_dirs }}"
-
-- name: Backup /
-  become: yes
-  cron:
-    name: "Backup '/'"
-    hour: 17
-    minute: 0
-    job: "/bin/bash -c \"'/home/{{ user }}/backup'\""
-
-- name: Find rtcwake
-  become: yes
-  command: which rtcwake
-  register: which_rtcwake
-
-- name: Suspend & wake up
-  become: yes
-  cron:
-    name: "Suspend & wake up (weekday: {{ item.d }})"
-    weekday: "{{ item.d }}"
-    hour: "{{ item.h }}"
-    minute: "{{ item.m }}"
-    job: "{{ which_rtcwake.stdout }} -m off -s {{ (item.t * 3600)|int }}"
-  with_items:
-    - {d: 1, h: 0, m: 45, t: 10.75}
-    - {d: 2, h: 0, m: 45, t: 10.75}
-    - {d: 3, h: 0, m: 45, t: 10.75}
-    - {d: 4, h: 0, m: 45, t: 10.75}
-    - {d: 5, h: 0, m: 45, t: 10.75}
+    force: yes
+  with_items: "{{ media_directories }}"

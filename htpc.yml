@@ -1,26 +1,34 @@
 - hosts: 127.0.0.1
   roles:
+    - SD Card
     - Bash
-    - GNOME
-    - SMB
-    - role: LetsEncrypt
-      vars:
-        domain: prcek.petrknap.cz
-    - role: Emby
-      vars:
-        domain: prcek.petrknap.cz
     - HTPC
+    - name: SMB
+      vars:
+        home_image_directory: "{{ data_directory }}"
+        home_image_size__mb: 102400
+        users:
+          - michaela
+          - petr
+          - sona
+          - zdenek
+    - name: LetsEncrypt
+      vars:
+        version: 1.2.0
+        architecture: arm32v6
+    - name: Emby
+      vars:
+        version: 4.3.1.0
+        architecture: armhf
     - iptables
   vars:
-    user: user
-    home_dir: "/home/{{ user }}"
-    samba_users_home_size__mb_per_user: 102400
-    samba_users:
-      - michaela
-      - petr
-      - sona
-      - zdenek
-    emby_media_dirs:
+    local_ip: 192.168.0.253
+    domain: prcek.petrknap.cz
+    user: pi
+    data_volume: /dev/mapper/HDDs-data
+    data_directory: "/mnt/data"
+    shared_directory: "{{ data_directory }}/shared"
+    media_directories:
       - Hudba
       - Fotky a videa
       - Filmy a seriály

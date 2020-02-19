@@ -11,8 +11,8 @@
 
 - name: "Copy /etc/samba/smb.conf"
   become: yes
-  copy:
-    src: files/smb.conf
+  template:
+    src: templates/smb.conf
     dest: "/etc/samba/smb.conf"
   notify: Restart server
 
@@ -22,34 +22,34 @@
     name: "{{ item }}"
     shell: /sbin/nologin
     createhome: yes
-  with_items: "{{ samba_users }}"
+  with_items: "{{ users }}"
 
 - name: "Create virtual drive image for user"
   become: yes
-  shell: "dd if=/dev/zero of=/home/{{ item }}.img bs=1M count={{ samba_users_home_size__mb_per_user }} && yes | mkfs -t ext4 /home/{{ item }}.img"
+  shell: "dd if=/dev/zero of={{ home_image_directory }}/{{ item }}.img bs=1M count={{ home_image_size__mb }} && yes | mkfs -t ext4 {{ home_image_directory }}/{{ item }}.img"
   args:
-    creates: "/home/{{ item }}.img"
-  with_items: "{{ samba_users }}"
+    creates: "{{ home_image_directory }}/{{ item }}.img"
+  with_items: "{{ users }}"
 
 - name: "Set permissions on users virtual drive image"
   become: yes
   file:
-    path: "/home/{{ item }}.img"
+    path: "{{ home_image_directory }}/{{ item }}.img"
     state: file
     owner: root
     group: nogroup
     mode: 0600
-  with_items: "{{ samba_users }}"
+  with_items: "{{ users }}"
 
 - name: "Mount users virtual drive image as home directory"
   become: yes
   mount:
     path: "/home/{{ item }}"
-    src: "/home/{{ item }}.img"
+    src: "{{ home_image_directory }}/{{ item }}.img"
     fstype: ext4
-    opts: relatime
+    opts: defaults,relatime,nofail
     state: mounted
-  with_items: "{{ samba_users }}"
+  with_items: "{{ users }}"
 
 - name: "Set permissions on users home directory"
   become: yes
@@ -59,12 +59,12 @@
     owner: "{{ item }}"
     group: nogroup
     mode: 0700
-  with_items: "{{ samba_users }}"
+  with_items: "{{ users }}"
 
 - name: "Create shared-home directory"
   become: yes
   file:
-    path: /home/shared
+    path: "{{ shared_directory }}"
     state: directory
     owner: nobody
     group: nogroup
@@ -73,7 +73,7 @@
 - name: "Create Public directory"
   become: yes
   file:
-    path: /home/shared/Public
+    path: "{{ shared_directory }}/Public"
     state: directory
     owner: nobody
     group: nogroup
@@ -82,7 +82,7 @@
 - name: "Prevent Public directory deletion"
   become: yes
   file:
-    path: /home/shared/Public/.keep
+    path: "{{ shared_directory }}/Public/.keep"
     state: touch
     owner: nobody
     group: nogroup
@@ -90,5 +90,5 @@
 
 - name: "Enable user on server"
   become: yes
-  shell: "(echo {{ lookup('password', home_dir + '/.user_' + item + '.password length=8') }}; echo {{ lookup('password', home_dir + '/.user_' + item + '.password length=8') }}) | smbpasswd -s -a {{ item }}"
-  with_items: "{{ samba_users }}"
+  shell: "(echo {{ lookup('password', '/home/' + user + '/.' + item + '.password length=8') }}; echo {{ lookup('password', '/home/' + user + '/.' + item + '.password length=8') }}) | smbpasswd -s -a {{ item }}"
+  with_items: "{{ users }}"

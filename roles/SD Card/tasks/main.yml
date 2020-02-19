@@ -1,0 +1,31 @@
+- name: Mount /tmp from RAM
+  become: yes
+  mount:
+    path: /tmp
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noatime,nosuid
+    passno: 1
+    state: present
+
+- name: Mount /var/log from RAM
+  become: yes
+  mount:
+    path: /var/log
+    src: tmpfs
+    fstype: tmpfs
+    opts: defaults,noatime,nosuid,size=64m
+    passno: 1
+    state: present
+
+- name: Disable all swaps
+  become: yes
+  shell: swapoff -a
+
+- name: Disable all swaps permanently # https://github.com/djx339/ansible-role-swapoff/blob/master/tasks/main.yml
+  become: yes
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+    backup: yes
