@@ -5,6 +5,7 @@
     state: present
     force: yes
   with_items:
+    - lvm2
     - openssh-server
     - rsync
     - htop

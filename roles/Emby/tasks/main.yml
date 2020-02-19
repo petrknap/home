@@ -91,6 +91,7 @@
   with_items: "{{ media_directories }}"
 
 - name: "Generate PKCS#12 version of certificate for {{ domain }}"
+  become: yes
   command: "{{ emby.create_p12 }}"
 
 - name: "Regenerate PKCS#12 version of certificate for {{ domain }}"
