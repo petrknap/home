@@ -74,10 +74,10 @@ Would you like the SSH server to be enabled? <Yes>
 Add these lines:
 
 ```
-* * * * * flock --exclusive --nonblock /var/lock/ssh_r_{remote port}_22.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -R 127.0.0.1:{remote port}:127.0.0.1:22 -p {public port} {user}@{public IP} -N" # reverse SSH
-* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8096_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:80:127.0.0.1:8096 -p {public port} {user}@{public IP} -N" # Emby
-* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8920_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:443:127.0.0.1:8920 -p {public port} {user}@{public IP} -N" # Emby
-* * * * * flock --exclusive --nonblock /var/lock/ssh_l_445_445.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:445:127.0.0.1:445 -p {public port} {user}@{public IP} -N" # SMB
+* * * * * flock --exclusive --nonblock /var/lock/ssh_r_{remote port}_22.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -R 127.0.0.1:{remote port}:127.0.0.1:22 -p {public port} {user}@{public IP} -N" # reverse SSH
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8096_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -L 0.0.0.0:80:127.0.0.1:8096 -p {public port} {user}@{public IP} -N" # Emby
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8920_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -L 0.0.0.0:443:127.0.0.1:8920 -p {public port} {user}@{public IP} -N" # Emby
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_445_445.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -L 0.0.0.0:445:127.0.0.1:445 -p {public port} {user}@{public IP} -N" # SMB
 ```
 
 
