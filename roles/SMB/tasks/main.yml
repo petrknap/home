@@ -90,5 +90,5 @@
 
 - name: "Enable user on server"
   become: yes
-  shell: "(echo {{ lookup('password', '/home/' + user + '/.' + item + '.password length=8') }}; echo {{ lookup('password', '/home/' + user + '/.' + item + '.password length=8') }}) | smbpasswd -s -a {{ item }}"
+  shell: "(echo {{ lookup('password', home_image_directory + '/' + item + '.password length=8') }}; echo {{ lookup('password', home_image_directory + '/' + item + '.password length=8') }}) | smbpasswd -s -a {{ item }}"
   with_items: "{{ users }}"
