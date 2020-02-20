@@ -1,8 +1,8 @@
 - set_fact:
     emby:
-      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out {{ data_directory }}/{{ domain}}.p12 -passout pass:"
       data_directory: /var/lib/emby
       new_data_directory: "{{ data_directory}}/emby"
+      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out {{ emby.new_data_directory }}/{{ domain}}.p12 -passout pass: && chown emby:emby {{ emby.new_data_directory }}/{{ domain}}.p12"
 
 - name: "Check if server is installed"
   command: dpkg-query -W emby-server

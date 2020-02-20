@@ -20,9 +20,17 @@
 
 - name: Disable all swaps
   become: yes
-  shell: swapoff -a
+  shell: 'dphys-swapfile swapoff || swapoff -a'
 
-- name: Disable all swaps permanently # https://github.com/djx339/ansible-role-swapoff/blob/master/tasks/main.yml
+- name: Disable swap file permanently # https://www.raspberrypi.org/forums/viewtopic.php?t=244130
+  become: yes
+  replace:
+    path: /etc/dphys-swapfile
+    regexp: '^(#\s*)?CONF_SWAPSIZE=(.*)$'
+    replace: 'CONF_SWAPSIZE=0'
+    backup: yes
+
+- name: Disable swap partition permanently # https://github.com/djx339/ansible-role-swapoff/blob/master/tasks/main.yml
   become: yes
   replace:
     path: /etc/fstab
