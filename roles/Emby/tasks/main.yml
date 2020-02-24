@@ -1,8 +1,6 @@
 - set_fact:
-    emby:
-      data_directory: /var/lib/emby
-      new_data_directory: "{{ data_directory}}/emby"
-      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out /var/lib/emby/{{ domain}}.p12 -passout pass: && chown emby:emby /var/lib/emby/{{ domain}}.p12"
+    Emby:
+      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out /var/lib/emby/{{ domain }}.p12 -passout pass: && chown emby:emby /var/lib/emby/{{ domain }}.p12"
 
 - name: "Check if server is installed"
   command: dpkg-query -W emby-server
@@ -37,31 +35,6 @@
     group: nogroup
     mode: 0777
 
-- name: "Create new data directory"
-  become: yes
-  file:
-    path: "{{ emby.new_data_directory }}"
-    state: directory
-    owner: emby
-    group: emby
-    mode: 0700
-
-- name: Remove old data directory
-  become: yes
-  file:
-    path: "{{ emby.data_directory }}"
-    state: absent
-
-- name: Link new data directory
-  become: yes
-  file:
-    src: "{{ emby.new_data_directory }}"
-    dest: "{{ emby.data_directory }}"
-    state: link
-    owner: emby
-    group: emby
-    mode: 0400
-
 - name: "Create media directories"
   become: yes
   file:
@@ -92,7 +65,7 @@
 
 - name: "Generate PKCS#12 version of certificate for {{ domain }}"
   become: yes
-  command: "{{ emby.create_p12 }}"
+  command: bash -c "{{ Emby.create_p12 }}"
 
 - name: "Regenerate PKCS#12 version of certificate for {{ domain }}"
   become: yes
@@ -101,7 +74,7 @@
     hour: 0
     minute: 0
     day: 1
-    job: "{{ emby.create_p12 }} && service emby-server restart"
+    job: "{{ Emby.create_p12 }} && service emby-server restart"
 
 - name: "Start server"
   become: yes

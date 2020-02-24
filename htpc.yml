@@ -26,8 +26,8 @@
     domain: prcek.petrknap.cz
     user: pi
     data_volume: /dev/mapper/HDDs-data
-    data_directory: "/mnt/data"
-    shared_directory: "{{ data_directory }}/shared"
+    data_directory: /mnt/data
+    shared_directory: /home/shared
     media_directories:
       - Hudba
       - Fotky a videa

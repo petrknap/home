@@ -1,3 +1,14 @@
+- set_fact:
+    HTPC:
+      data_directories:
+        - /var/lib/docker
+        - /var/lib/emby
+        - /home/shared
+        - "/home/{{ user }}/.cache"
+        - "/home/{{ user }}/.config"
+        - "/home/{{ user }}/.local"
+        - "/home/{{ user }}/.thumbnails"
+
 - name: Install needed packages
   become: yes
   apt:
@@ -21,14 +32,23 @@
     opts: defaults,relatime,nofail
     state: mounted
 
-- name: Mount shared directory as home
+- name: Create data directories
+  become: yes
+  file:
+    path: "{{ data_directory }}{{ item }}"
+    state: directory
+    mode: 0777
+  with_items: "{{ HTPC.data_directories }}"
+
+- name: Mount data directories
   become: yes
   mount:
-    path: /home/shared
-    src: "{{ shared_directory }}"
+    path: "{{ item }}"
+    src: "{{ data_directory }}{{ item }}"
     fstype: none
     opts: bind,nofail
     state: mounted
+  with_items: "{{ HTPC.data_directories }}"
 
 - name: Authorize public key
   authorized_key:
