@@ -16,6 +16,14 @@
   args:
     creates: "/etc/letsencrypt/live/{{ domain }}"
 
+- name: "Regenerate certificates now"
+  become: yes
+  cron:
+    name: "Regenerate certificates"
+    hour: "*/6"
+    minute: 0
+    job: "{{ lets_encrypt.run_certbot }} renew"
+
 - name: "Regenerate certificates"
   become: yes
   cron:
