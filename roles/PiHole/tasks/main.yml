@@ -1,3 +1,11 @@
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg:
+      - docker.io
+    state: present
+    force: yes
+
 - name: Start DNS server
   docker_container:
     name: Pi-hole
