@@ -24,6 +24,7 @@
     image: pihole/pihole
     state: started
     restart: yes
+    restart_policy: always
     volumes:
       - "{{ configuration_directory }}/etc/pihole/:/etc/pihole/"
       - "{{ configuration_directory }}/etc/dnsmasq.d/:/etc/dnsmasq.d/"
