@@ -6,6 +6,17 @@
     state: present
     force: yes
 
+- name: "Create configuration directories"
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+  with_items:
+    - "{{ configuration_directory }}/etc/pihole"
+    - "{{ configuration_directory }}/etc/dnsmasq.d"
+
 - name: Start DNS server
   become: yes
   docker_container:
@@ -14,8 +25,8 @@
     state: started
     restart: yes
     volumes:
-      - "{{ configuration_directory }}/etc-pihole/:/etc/pihole/"
-      - "{{ configuration_directory }}/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+      - "{{ configuration_directory }}/etc/pihole/:/etc/pihole/"
+      - "{{ configuration_directory }}/etc/dnsmasq.d/:/etc/dnsmasq.d/"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
