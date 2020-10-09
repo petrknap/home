@@ -3,6 +3,9 @@
     - SD Card
     - Bash
     - HTPC
+    - name: PiHole
+      vars:
+        configuration_directory: "{{ data_directory }}/.pi-hole"
     - name: SMB
       vars:
         home_image_directory: "{{ data_directory }}"
