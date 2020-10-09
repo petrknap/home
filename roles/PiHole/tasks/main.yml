@@ -12,4 +12,4 @@
       - "53:53/udp"
       - "8053:80/tcp"
     env:
-      WEBPASSWORD: "{{ lookup('password', {{ configuration_directory }} + '/admin.password length=8') }}"
+      WEBPASSWORD: "{{ lookup('password', configuration_directory + '/admin.password length=8') }}"
