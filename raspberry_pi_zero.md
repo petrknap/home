@@ -78,6 +78,8 @@ Add these lines:
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_8096_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:80:127.0.0.1:8096 -p {public port} {user}@{public IP} -N" # Emby
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_8920_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:443:127.0.0.1:8920 -p {public port} {user}@{public IP} -N" # Emby
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_445_445.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:445:127.0.0.1:445 -p {public port} {user}@{public IP} -N" # SMB
+* * * * * flock --exclusive --nonblock /var/lock/socat_l_53_udp4.lock --command "/usr/bin/socat udp4-listen:53,reuseaddr,fork udp:{public IP}:{public port}" # DNS (UDP)
+* * * * * flock --exclusive --nonblock /var/lock/socat_l_53_tcp4.lock --command "/usr/bin/socat tcp4-listen:53,reuseaddr,fork tcp:{public IP}:{public port}" # DNS (TCP)
 ```
 
 
