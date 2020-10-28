@@ -5,7 +5,7 @@ $ip = @$_GET['ip'];
 
 if ($list) {
     $hosts = file_get_contents($list);
-    $hosts = preg_replace('/^([^#\s]+\s+)?([^#].*)$/m', $ip ? "{$ip} \$2" : '$2', $hosts);
+    $hosts = preg_replace('/^([^#\h]+\h+)?([^#\v][^\v]*)$/mu', $ip ? "{$ip} \$2" : '$2', $hosts);
 } else {
     $hosts = '# Usage: modify.php?list=https://example.org/hosts[&ip=192.168.0.1]';
 }
