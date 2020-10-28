@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(600);
+
 $list = @$_GET['list'];
 $ip = @$_GET['ip'];
 
