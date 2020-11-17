@@ -22,7 +22,7 @@
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
-        rules: "dns.prcek.petrknap.cz>prcek.petrknap.cz:8053"
+        rules: "prcek.petrknap.cz>prcek.petrknap.cz:8096,dns.prcek.petrknap.cz>prcek.petrknap.cz:8053"
     - iptables
   vars:
     local_ip: 192.168.0.253
