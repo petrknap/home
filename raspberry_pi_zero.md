@@ -75,10 +75,10 @@ Add these lines:
 
 ```
 * * * * * flock --exclusive --nonblock /var/lock/ssh_r_{remote port}_22.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -R 127.0.0.1:{remote port}:127.0.0.1:22 -p {public port} {user}@{public IP} -N" # reverse SSH (ignores certificate changes)
-* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8096_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:80:127.0.0.1:8096 -p {public port} {user}@{public IP} -N" # Emby
-* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8920_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:443:127.0.0.1:8920 -p {public port} {user}@{public IP} -N" # Emby
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_80_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:80:127.0.0.1:80 -p {public port} {user}@{public IP} -N" # HTTP
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_443_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:443:127.0.0.1:443 -p {public port} {user}@{public IP} -N" # HTTPS
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_445_445.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:445:127.0.0.1:445 -p {public port} {user}@{public IP} -N" # SMB
-* * * * * flock --exclusive --nonblock /var/lock/socat_l_53_udp4.lock --command "/usr/bin/socat -T15 udp4-listen:53,reuseaddr,fork udp:{public IP}:{public port}" # DNS
+* * * * * flock --exclusive --nonblock /var/lock/socat_l_53_udp4.lock --command "/usr/bin/socat -T15 udp4-recvfrom:53,reuseaddr,fork udp:{public IP}:{public port}" # DNS
 * * * * * flock --exclusive --nonblock /var/lock/socat_l_53_tcp4.lock --command "/usr/bin/socat -T15 tcp4-listen:53,reuseaddr,fork tcp:{public IP}:{public port}" # DNS
 ```
 
