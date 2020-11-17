@@ -3,9 +3,6 @@
     - SD Card
     - Bash
     - HTPC
-    - name: PiHole
-      vars:
-        configuration_directory: "{{ data_directory }}/.pi-hole"
     - name: SMB
       vars:
         home_image_directory: "{{ data_directory }}"
@@ -15,14 +12,17 @@
           - petr
           - sona
           - zdenek
-    - name: LetsEncrypt
+    - name: PiHole
       vars:
-        version: 1.2.0
-        architecture: arm32v6
+        configuration_directory: "{{ data_directory }}/pi-hole"
     - name: Emby
       vars:
         version: 4.5.1.0
         architecture: armhf
+    - name: LetsEncryptNginxReverseProxy
+      vars:
+        configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
+        rules: "dns.prcek.petrknap.cz>prcek.petrknap.cz:8053"
     - iptables
   vars:
     local_ip: 192.168.0.253

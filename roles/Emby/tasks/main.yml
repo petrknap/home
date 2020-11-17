@@ -1,7 +1,3 @@
-- set_fact:
-    Emby:
-      create_p12: "openssl pkcs12 -export -inkey /etc/letsencrypt/live/{{ domain }}/privkey.pem -in /etc/letsencrypt/live/{{ domain }}/cert.pem -out /var/lib/emby/{{ domain }}.p12 -passout pass: && chown emby:emby /var/lib/emby/{{ domain }}.p12"
-
 - name: "Check if server is installed"
   command: dpkg-query -W emby-server
   register: dpkg_emby
@@ -62,19 +58,6 @@
     special_time: hourly
     job: "chgrp --recursive emby '{{ shared_directory }}/{{ item }}/' && chmod --recursive g-x+rwX '{{ shared_directory }}/{{ item }}/'"
   with_items: "{{ media_directories }}"
-
-- name: "Generate PKCS#12 version of certificate for {{ domain }}"
-  become: yes
-  command: bash -c "{{ Emby.create_p12 }}"
-
-- name: "Regenerate PKCS#12 version of certificate for {{ domain }}"
-  become: yes
-  cron:
-    name: "Regenerate PKCS#12 version of certificate for {{ domain }}"
-    hour: 0
-    minute: 0
-    day: 1
-    job: "{{ Emby.create_p12 }} && service emby-server restart"
 
 - name: "Start server"
   become: yes

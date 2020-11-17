@@ -72,38 +72,6 @@
     state: present
   notify: Restart ssh
 
-- name: Assign Emby Web Client to standard HTTP port
-  become: yes
-  iptables:
-    table: nat
-    chain: "{{ item }}"
-    protocol: tcp
-    match: tcp
-    destination: "{{ local_ip }}"
-    destination_port: 80
-    jump: REDIRECT
-    to_ports: 8096
-    comment: Assign Emby Web App to standard HTTP port
-  with_items:
-    - PREROUTING
-    - OUTPUT
-
-- name: Assign Emby Web Client to standard HTTPS port
-  become: yes
-  iptables:
-    table: nat
-    chain: "{{ item }}"
-    protocol: tcp
-    match: tcp
-    destination: "{{ local_ip }}"
-    destination_port: 443
-    jump: REDIRECT
-    to_ports: 8920
-    comment: Assign Emby Web Client to standard HTTPS port
-  with_items:
-    - PREROUTING
-    - OUTPUT
-
 - name: "Add links to media directories to users desktop"
   become: yes
   file:

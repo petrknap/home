@@ -1,0 +1,33 @@
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg:
+      - docker.io
+    state: present
+    force: yes
+
+- name: "Create configuration directories"
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+    recurse: yes
+  with_items:
+    - "{{ configuration_directory }}/etc/letsencrypt"
+
+- name: Start NGINX server
+  become: yes
+  docker_container:
+    name: letsencrypt-nginx-reverse-proxy
+    image: petrknap/letsencrypt-nginx-reverse-proxy
+    state: started
+    restart: yes
+    restart_policy: always
+    volumes:
+      - "{{ configuration_directory }}/etc/letsencrypt:/etc/letsencrypt"
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    env:
+      RULES: "{{ rules }}"
