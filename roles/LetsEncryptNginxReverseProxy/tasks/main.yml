@@ -17,14 +17,15 @@
     - "{{ configuration_directory }}/etc/letsencrypt"
     - "{{ configuration_directory }}/tmp/repository"
 
-- become: yes
+- name: Clone repository server
+  become: yes
   git:
     repo: "https://github.com/petrknap/docker-letsencrypt-nginx-reverse-proxy.git"
     dest: "{{ configuration_directory }}/tmp/repository"
     version: master
     force: yes
 
-- name: Build NGINX server
+- name: Build docker image
   become: yes
   docker_image:
     path: "{{ configuration_directory }}/tmp/repository"
