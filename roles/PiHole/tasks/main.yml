@@ -21,7 +21,7 @@
   become: yes
   copy:
     src: files/modify.php
-    dest: "{{ configuration_directory }}/modify.php"
+    dest: "{{ configuration_directory }}/remove-ips-from-list.php"
     mode: 0444
 
 - name: Start DNS server
@@ -33,7 +33,7 @@
     restart: yes
     restart_policy: always
     volumes:
-      - "{{ configuration_directory }}/modify.php:/var/www/html/modify.php"
+      - "{{ configuration_directory }}/remove-ips-from-list.php:/var/www/html/remove-ips-from-list.php"
       - "{{ configuration_directory }}/etc/pihole/:/etc/pihole/"
       - "{{ configuration_directory }}/etc/dnsmasq.d/:/etc/dnsmasq.d/"
     ports:
@@ -42,3 +42,4 @@
       - "8053:80/tcp"
     env:
       WEBPASSWORD: "{{ lookup('password', configuration_directory + '/admin.password length=8') }}"
+      ServerIP: "{{ local_ip }}"
