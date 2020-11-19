@@ -48,3 +48,4 @@
       - "443:443/tcp"
     env:
       RULES: "{{ rules }}"
+      DEFAULT_SERVER: "{{ default_server }}"
