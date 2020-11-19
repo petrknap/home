@@ -24,6 +24,12 @@
     dest: "{{ configuration_directory }}/remove-ips-from-list.php"
     mode: 0444
 
+- name: Configure FTL
+  lineinfile:
+    path: "{{ configuration_directory }}/etc/pihole/pihole-FTL.conf"
+    line: "BLOCKINGMODE=IP-NODATA-AAAA"
+    regexp: '^BLOCKINGMODE='
+
 - name: Start DNS server
   become: yes
   docker_container:
