@@ -22,7 +22,7 @@
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
-        rules: "{{ domain }}>{{ local_ip }}:8096,dns.{{ domain }}>{{ local_ip }}:8053"
+        rules: "{{ domain }}>{{ local_ip }}:8096"
     - iptables
   vars:
     local_ip: 192.168.0.253
