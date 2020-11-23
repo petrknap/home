@@ -23,8 +23,21 @@
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
         rules: "{{ domain }}>{{ local_ip }}:8096"
-        defualt_server: >
-          return 404;
+        default_server: |-
+          allow 10.0.0.0/8;
+          allow 172.16.0.0/12;
+          allow 192.168.0.0/16;
+          deny all;
+
+          location / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_pass http://{{ local_ip }}:8053;
+          }
+
+          location /admin {
+            rewrite ^ http://$host;
+          }
     - iptables
   vars:
     local_ip: 192.168.0.253
