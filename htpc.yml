@@ -33,10 +33,14 @@
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_pass http://{{ local_ip }}:8053;
+
+            sub_filter_once on;
+            sub_filter_types text/html;
+            sub_filter '<head>' '<head><base href="/">';
           }
 
-          location /admin {
-            rewrite ^ http://$host;
+          location ~* ^/admin/(.*\.php)?$ {
+            return 403;
           }
     - iptables
   vars:
