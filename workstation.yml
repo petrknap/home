@@ -13,6 +13,7 @@
     - RestBreak
     - workstation
   vars:
-    home_dir: /home/dash
+    user: dash
+    home_dir: "/home/{{ user }}"
     git_email: dev@petrknap.cz
     git_name: Petr Knap
