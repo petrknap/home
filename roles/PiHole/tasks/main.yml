@@ -54,3 +54,4 @@
   wait_for:
     host: "{{ local_ip }}"
     port: 53
+    delay: 60
