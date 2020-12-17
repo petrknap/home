@@ -49,3 +49,8 @@
     env:
       WEBPASSWORD: "{{ lookup('password', configuration_directory + '/admin.password length=8') }}"
       ServerIP: "{{ local_ip }}"
+
+- name: Wait for DNS server
+  wait_for:
+    host: "{{ local_ip }}"
+    port: 53
