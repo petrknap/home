@@ -1,0 +1,30 @@
+- name: Set required version and build
+  set_fact:
+    IDEA:
+      version: 2020.3.2
+      build: 203.7148.57
+
+- name: Prepare directory
+  file:
+    path: "{{ home_dir }}/.apps/IDEA"
+    state: directory
+
+- name: Download and install
+  unarchive:
+    src: "https://download.jetbrains.com/idea/ideaIC-{{ IDEA.version }}.tar.gz"
+    dest: "{{ home_dir }}/.apps/IDEA"
+    creates: "{{ home_dir }}/.apps/IDEA/idea-IC-{{ IDEA.build }}"
+    remote_src: yes
+
+- name: Create desktop shortcut
+  template:
+    src: templates/IDEA.desktop
+    dest: "{{ home_dir }}/Desktop/IDEA.desktop"
+    mode: 0774
+
+- name: Set inotify watches limit # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+  become: yes
+  sysctl:
+    name: fs.inotify.max_user_watches
+    value: 524288
+    state: present
