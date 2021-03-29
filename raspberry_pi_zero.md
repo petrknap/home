@@ -91,6 +91,7 @@ Add these lines:
 
 ```
 tmpfs   /tmp       tmpfs   defaults,noatime,nosuid            0   0
+tmpfs   /var/cache tmpfs   defaults,noatime,nosuid            0   0
 tmpfs   /var/log   tmpfs   defaults,noatime,nosuid,size=64m   0   0
 ```
 
