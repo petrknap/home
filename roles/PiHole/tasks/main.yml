@@ -35,6 +35,7 @@
   docker_container:
     name: Pi-hole
     image: pihole/pihole
+    pull: yes
     state: started
     restart: yes
     restart_policy: always
