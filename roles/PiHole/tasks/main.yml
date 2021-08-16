@@ -1,3 +1,14 @@
+- name: Temporarily add external DNS
+  become: yes
+  lineinfile:
+    dest: /etc/resolv.conf
+    line: "nameserver {{ item }}"
+  with_items:
+    - 1.1.1.1 # Cloudflare
+    - 8.8.8.8 # Google
+    - 8.26.56.26 # Comodo
+    - 208.67.222.222 # OpenDNS
+
 - name: Install needed packages
   become: yes
   apt:
