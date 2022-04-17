@@ -78,11 +78,32 @@ Add these lines:
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_80_80.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:80:127.0.0.1:80 -p {public port} {user}@{public IP} -N" # HTTP
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_443_443.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:443:127.0.0.1:443 -p {public port} {user}@{public IP} -N" # HTTPS
 * * * * * flock --exclusive --nonblock /var/lock/ssh_l_445_445.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:445:127.0.0.1:445 -p {public port} {user}@{public IP} -N" # SMB
+* * * * * flock --exclusive --nonblock /var/lock/ssh_l_8096_8096.lock --command "/usr/bin/ssh -o ServerAliveInterval=60 -L 0.0.0.0:8096:127.0.0.1:8096 -p {public port} {user}@{public IP} -N" # Emby (HTTP)
+* * * * * flock --exclusive --nonblock /var/lock/ssdp_emby.lock --command "/home/pi/emby.bash {Embys UUID} 8096 2>&1 > /home/pi/emby.log" # Emby (SSDP)
 * * * * * flock --exclusive --nonblock /var/lock/socat_l_53_udp4.lock --command "while true; do (socat -T15 udp4-recvfrom:53,reuseaddr,fork udp:{primary public IP}:{primary public port} & PID=\"\${!}\"; sleep 5; while timeout 5 dig dns-check.petrknap.cz @127.0.0.1; do (sleep 60); done; kill \"\${PID}\"; timeout 600 socat -T15 udp4-recvfrom:53,reuseaddr,fork udp:{secondary public IP}:{secondary public port}); done" # DNS
 * * * * * flock --exclusive --nonblock /var/lock/socat_l_53_tcp4.lock --command "socat -T15 tcp4-listen:53,reuseaddr,fork tcp:{primary public IP}:{primary public port}" # DNS
 ```
 
+Emby **requires `node` and [`ssdp-faker`](https://github.com/petrknap/ssdp-faker)**.
 DNS **requires `socat` and `dnsutils`** packages and IPs can't be domain names (only for DNS).
+
+
+### `nano /home/pi/emby.bash`
+
+```bash
+#!/usr/bin/env bash
+set -e
+set -x
+DIR=`realpath "${BASH_SOURCE%/*}"`
+
+UUID="${1}"
+SOCKET="$(ip route get 1 | awk '{print $NF;exit}'):${2}"
+
+sudo -u nobody \
+node "${DIR}/ssdp-faker/ssdp-faker.js" run-server \
+        http://${SOCKET}/dlna/${UUID}/description.xml \
+        uuid:${UUID}::urn:schemas-upnp-org:device:MediaServer:1
+```
 
 
 ### `sudo nano /etc/fstab`
