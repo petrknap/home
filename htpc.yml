@@ -17,8 +17,9 @@
         configuration_directory: "{{ data_directory }}/pi-hole"
     - name: Emby
       vars:
-        version: 4.5.4.0
-        architecture: armhf
+        version: 4.7.0.35
+        architecture: arm32v7
+        configuration_directory: "{{ data_directory }}/emby"
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"

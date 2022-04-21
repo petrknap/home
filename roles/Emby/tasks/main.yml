@@ -1,66 +1,31 @@
-- name: "Check if server is installed"
-  command: dpkg-query -W emby-server
-  register: dpkg_emby
-  failed_when: dpkg_emby.rc > 1
-  changed_when: dpkg_emby.rc == 1
-
-- name: "Download server"
-  get_url:
-    url: "https://github.com/MediaBrowser/Emby.Releases/releases/download/{{ version }}/emby-server-deb_{{ version }}_{{ architecture }}.deb"
-    dest: /tmp/emby-server.deb
-  when: dpkg_emby.rc == 1
-
-- name: "Install server"
-  become: true
+- name: Install needed packages
+  become: yes
   apt:
-    deb: /tmp/emby-server.deb
-  when: dpkg_emby.rc == 1
+    pkg:
+      - docker.io
+    state: present
+    force: yes
 
-- name: "Enable server"
-  become: yes
-  systemd:
-    name: emby-server
-    enabled: yes
-
-- name: "Create shared directory"
+- name: "Create configuration directories"
   become: yes
   file:
-    path: "{{ shared_directory }}"
+    path: "{{ item }}"
     state: directory
-    owner: nobody
-    group: nogroup
     mode: 0777
+    recurse: yes
+  with_items:
+    - "{{ configuration_directory }}/config"
 
-- name: "Create media directories"
+- name: Start Emby server
   become: yes
-  file:
-    path: "{{ shared_directory }}/{{ item }}"
-    state: directory
-    owner: nobody
-    group: nogroup
-    mode: 0777
-  with_items: "{{ media_directories }}"
-
-- name: "Prevent media directories deletion"
-  become: yes
-  file:
-    path: "{{ shared_directory }}/{{ item }}/.keep"
-    state: touch
-    owner: nobody
-    group: nogroup
-    mode: 0000
-  with_items: "{{ media_directories }}"
-
-- name: Grant permissions to emby
-  become: yes
-  cron:
-    name: "Grant permissions to emby on '{{ shared_directory }}/{{ item }}/'"
-    special_time: hourly
-    job: "chgrp --recursive emby '{{ shared_directory }}/{{ item }}/' && chmod --recursive g-x+rwX '{{ shared_directory }}/{{ item }}/'"
-  with_items: "{{ media_directories }}"
-
-- name: "Start server"
-  become: yes
-  systemd:
-    name: emby-server
+  docker_container:
+    name: emby
+    image: "emby/embyserver_{{ architecture }}:{{ version }}"
+    pull: yes
     state: started
+    restart: yes
+    restart_policy: always
+    volumes:
+      - "{{ configuration_directory }}/config/:/config/"
+      - "{{ shared_directory }}/:/mnt/shared/:ro"
+    network_mode: host
