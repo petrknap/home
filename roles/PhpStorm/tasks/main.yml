@@ -1,8 +1,8 @@
 - name: Set required version and build
   set_fact:
     PhpStorm:
-      version: 2020.3.2
-      build: 203.7148.74
+      version: 2020.1.4
+      build: 201.8743.18
 
 - name: Prepare directory
   file:
