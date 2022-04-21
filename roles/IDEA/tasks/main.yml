@@ -1,8 +1,8 @@
 - name: Set required version and build
   set_fact:
     IDEA:
-      version: 2020.3.2
-      build: 203.7148.57
+      version: 2022.1
+      build: 221.5080.210
 
 - name: Prepare directory
   file:
