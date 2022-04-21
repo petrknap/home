@@ -2,7 +2,6 @@
     HTPC:
       data_directories:
         - /var/lib/docker
-        - /var/lib/emby
         - /home/shared
         - "/home/{{ user }}/.cache"
         - "/home/{{ user }}/.config"
