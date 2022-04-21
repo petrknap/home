@@ -32,3 +32,6 @@
       - "1900:1900/udp"
       - "8096:8096/tcp"
     network_mode: host
+    env:
+      UID: "0"
+      GID: "0"
