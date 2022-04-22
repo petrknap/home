@@ -44,8 +44,8 @@
 - name: Start DNS server
   become: yes
   docker_container:
-    name: Pi-hole
-    image: pihole/pihole
+    name: pi-hole
+    image: pihole/pihole:v5.8
     pull: yes
     state: started
     restart: yes
