@@ -20,7 +20,7 @@
 - name: Clone repository server
   become: yes
   git:
-    repo: "https://github.com/petrknap/docker-letsencrypt-nginx-reverse-proxy.git"
+    repo: "https://github.com/petrknap/letsencrypt-nginx-reverse-proxy.git"
     dest: "{{ configuration_directory }}/tmp/repository"
     version: master
     force: yes
