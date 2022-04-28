@@ -100,7 +100,7 @@
     mode: 0000
   with_items: "{{ media_directories }}"
 
-- name: Create public directory
+- name: Create public directory in shared directory
   become: yes
   file:
     path: "{{ shared_directory }}/Public"
