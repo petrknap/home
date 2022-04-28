@@ -123,7 +123,7 @@
   cron:
     name: "Set permissions to '{{ shared_directory }}/'"
     special_time: daily
-    job: "chmod --recursive u-x+rwX,g-wx+rX,o-wx+rX '{{ shared_directory }}/' && find '{{ shared_directory }}/' -type d -exec chmod u-x+rwX,g-x+rwX,o-x+rwX {} \\; && chmod --recursive u-x+rwX,g-x+rwX,o-x+rwX '{{ shared_directory }}/Public/' && find '{{ shared_directory }}/' -type f -name '.keep' -exec chmod 0000 {} \\;"
+    job: "chmod --recursive u-x+rwX,g-wx+rX,o-wx+rX '{{ shared_directory }}/' && find '{{ shared_directory }}/' -type d -exec chmod u-x+rwX,g-x+rwX,o-x+rwX,+t {} \\; && chmod --recursive u-x+rwX,g-x+rwX,o-x+rwX '{{ shared_directory }}/Public/' && find '{{ shared_directory }}/' -type f -name '.keep' -exec chmod 0000 {} \\;"
 
 - name: "Add links to media directories to users desktop"
   become: yes
