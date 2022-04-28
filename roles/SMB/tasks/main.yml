@@ -61,7 +61,7 @@
     mode: 0700
   with_items: "{{ users }}"
 
-- name: "Create shared-home directory"
+- name: Create shared directory
   become: yes
   file:
     path: "{{ shared_directory }}"
@@ -70,7 +70,7 @@
     group: nogroup
     mode: 0777
 
-- name: "Create Public directory"
+- name: "Create public directory"
   become: yes
   file:
     path: "{{ shared_directory }}/Public"
@@ -79,7 +79,7 @@
     group: nogroup
     mode: 0777
 
-- name: "Prevent Public directory deletion"
+- name: "Create .keep file in public directory"
   become: yes
   file:
     path: "{{ shared_directory }}/Public/.keep"
