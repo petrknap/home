@@ -16,5 +16,5 @@
   vars:
     user: dash
     home_dir: "/home/{{ user }}"
-    git_email: dev@petrknap.cz
+    git_email: 8299754+petrknap@users.noreply.github.com
     git_name: Petr Knap
