@@ -15,6 +15,31 @@
     - filezilla
     - torsocks
 
+- become: yes
+  copy:
+    src: files/Seznam.cz/docker-deamon.json
+    dest: "/etc/docker/daemon.json"
+  notify: Restart Docker
+
+- copy:
+    src: files/Seznam.cz/aliases.bash
+    dest: "{{ home_dir }}/Seznam.cz/aliases.bash"
+
+- lineinfile:
+    path: "{{ home_dir }}/.bash_aliases"
+    backup: yes
+    line: "if [ -f ~/Seznam.cz/aliases.bash ]; then . ~/Seznam.cz/aliases.bash; else echo \"WARNING! ~/Seznam.cz/aliases.bash not found\"; fi"
+
+- copy:
+    src: files/Seznam.cz/.gitconfig
+    dest: "{{ home_dir }}/Seznam.cz/.gitconfig"
+
+- blockinfile:
+    path: "{{ home_dir }}/.gitconfig"
+    block: |
+      [includeIf "gitdir:~/Seznam.cz/"]
+          path = ~/Seznam.cz/.gitconfig
+
 - name: Check if vagrant is installed
   command: which vagrant
   register: vagrant_not_found
