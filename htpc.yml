@@ -46,6 +46,7 @@
     - iptables
   vars:
     local_ip: 192.168.0.253
+    hostname: prcek
     domain: prcek.petrknap.cz
     user: pi
     data_volume: /dev/mapper/HDDs-data
