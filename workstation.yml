@@ -11,6 +11,7 @@
     - Postman
     - VioletUmlEditor
     - RestBreak
+    - Docker
     - workstation
   vars:
     user: dash
