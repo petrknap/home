@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Name=IntelliJ IDEA
-Exec={{ home_dir }}/.apps/IDEA/idea-IC-{{ IDEA.build }}/bin/idea.sh
-Icon={{ home_dir }}/.apps/IDEA/idea-IC-{{ IDEA.build }}/bin/idea.png
-Terminal=false
-Type=Application
