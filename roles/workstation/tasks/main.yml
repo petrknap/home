@@ -5,14 +5,14 @@
     state: present
     force: yes
   with_items:
+    - filezilla
     - git
     - gpg
     - htop
+    - iotop
     - make
     - mc
     - nano
-    - iotop
-    - filezilla
 
 - name: Copy backup script
   copy:
