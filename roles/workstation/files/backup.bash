@@ -23,6 +23,7 @@ find ~ -maxdepth 1 \
     | sed 's/.*/"&"/' \
     | xargs -t sudo tar --checkpoint=250 --create --xz \
         /etc \
+        ~/.apps/KeePass \
     | gpg --verbose --symmetric --passphrase-file ~/backup.key --batch --output ~/backup.tmp \
 && rm ~/*.ls
 
