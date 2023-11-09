@@ -15,13 +15,15 @@
     - filezilla
 
 - name: Copy backup script
-  become: yes
   copy:
     src: files/backup.bash
     dest: "{{ home_dir }}/backup"
-    owner: root
-    group: root
-    mode: 0744
+    mode: 0500
 
 - name: Generate backup key
   shell: "#{{ lookup('password', home_dir + '/backup.key length=128') }}"
+
+- name: Secure backup key
+  file:
+    path: "{{ home_dir }}/backup.key"
+    mode: 0400
