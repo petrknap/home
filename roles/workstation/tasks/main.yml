@@ -1,59 +1,27 @@
-- name: Install needed packages
+- name: Install other packages
   become: yes
   apt:
     pkg: "{{ item }}"
     state: present
     force: yes
   with_items:
+    - git
+    - gpg
     - htop
+    - make
     - mc
     - nano
-    - php-cli
-    - virtualbox
     - iotop
-    - docker.io
     - filezilla
-    - torsocks
 
-- become: yes
-  copy:
-    src: files/Seznam.cz/docker-deamon.json
-    dest: "/etc/docker/daemon.json"
-  notify: Restart Docker
-
-- copy:
-    src: files/Seznam.cz/aliases.bash
-    dest: "{{ home_dir }}/Seznam.cz/aliases.bash"
-
-- lineinfile:
-    path: "{{ home_dir }}/.bash_aliases"
-    backup: yes
-    line: "if [ -f ~/Seznam.cz/aliases.bash ]; then . ~/Seznam.cz/aliases.bash; else echo \"WARNING! ~/Seznam.cz/aliases.bash not found\"; fi"
-
-- copy:
-    src: files/Seznam.cz/.gitconfig
-    dest: "{{ home_dir }}/Seznam.cz/.gitconfig"
-
-- blockinfile:
-    path: "{{ home_dir }}/.gitconfig"
-    block: |
-      [includeIf "gitdir:~/Seznam.cz/"]
-          path = ~/Seznam.cz/.gitconfig
-
-- name: Check if vagrant is installed
-  command: which vagrant
-  register: vagrant_not_found
-  failed_when: vagrant_not_found.rc > 1
-  changed_when: vagrant_not_found.rc == 1
-
-- name: Download vagrant
-  get_url:
-    url: "https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.deb"
-    dest: "/tmp/vagrant.deb"
-  when: vagrant_not_found.rc == 1
-
-- name: Install vagrant
+- name: Copy backup script
   become: yes
-  apt:
-    deb: "/tmp/vagrant.deb"
-  when: vagrant_not_found.rc == 1
+  copy:
+    src: files/backup.bash
+    dest: "{{ home_dir }}/backup"
+    owner: root
+    group: root
+    mode: 0744
+
+- name: Generate backup key
+  shell: "#{{ lookup('password', home_dir + '/backup.key length=128') }}"
