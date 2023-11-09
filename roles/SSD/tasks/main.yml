@@ -12,16 +12,16 @@
     value: 50
     state: present
 
-- name: Get root device UUID # https://serverfault.com/a/846188
-  shell: cat /etc/fstab | grep "[^#].*\s/\s" | cut -d" " -f1 | cut -d"=" -f2
-  register: root_uuid
+- name: Get root device # https://serverfault.com/a/846188
+  shell: cat /etc/fstab | grep "[^#].*\s/\s" | cut -d" " -f1
+  register: root_device
 
 - name: Set mount options for root device # https://serverfault.com/a/846188
   become: yes
   mount:
     path: /
-    src: "UUID={{ root_uuid.stdout }}"
+    src: "{{ root_device.stdout }}"
     fstype: ext4
-    opts: "errors=remount-ro,noatime,nodiratime"
+    opts: "defaults,noatime,nodiratime"
     passno: 1
     state: present
