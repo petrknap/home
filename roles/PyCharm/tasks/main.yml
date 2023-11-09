@@ -1,8 +1,8 @@
 - name: Set required version and build
   set_fact:
     PyCharm:
-      version: 2019.3.2
-      build: 2019.3.2
+      version: 2023.2.4
+      build: 2023.2.4
 
 - name: Prepare directory
   file:
