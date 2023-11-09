@@ -22,7 +22,7 @@
     - podman-docker
     - runc
 
-- name: Docker - install the latest version
+- name: Install the latest version
   become: yes
   apt:
     pkg: "{{ item }}"
