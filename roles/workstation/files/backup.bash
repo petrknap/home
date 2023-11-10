@@ -14,8 +14,12 @@ ls -aR ~/snap > ~/snap.ls || true
 find ~ -maxdepth 1 \
     -not -path ~/backup.tmp -not -path ~/backup.tar -not -path ~/backup.tar.xz -not -path ~/backup.tar.xz.gpg \
     -not -path ~ \
+    -not -path ~/.ansible \
     -not -path ~/.apps \
     -not -path ~/.cache \
+    -not -path ~/.docker \
+    -not -path ~/.java \
+    -not -path ~/.local \
     -not -path ~/Downloads \
     -not -path ~/Videos \
     -not -path ~/github.com \
