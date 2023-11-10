@@ -12,8 +12,8 @@ ls -aR ~/Videos > ~/Videos.ls || true
 ls -aR ~/github.com > ~/github.com.ls || true
 ls -aR ~/snap > ~/snap.ls || true
 find ~ -maxdepth 1 \
+    -not -path ~/backup.tmp -not -path ~/backup.tar -not -path ~/backup.tar.xz -not -path ~/backup.tar.xz.gpg \
     -not -path ~ \
-    -not -path ~/backup.key -not -path ~/backup.tmp -not -path ~/backup.tar -not -path ~/backup.tar.xz -not -path ~/backup.tar.xz.gpg \
     -not -path ~/.apps \
     -not -path ~/.cache \
     -not -path ~/Downloads \

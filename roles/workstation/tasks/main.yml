@@ -25,7 +25,7 @@
 - name: Copy backup script
   copy:
     src: files/backup.bash
-    dest: "{{ home_dir }}/backup"
+    dest: "{{ home_dir }}/backup.bash"
     mode: 0500
 
 - name: Generate backup key
