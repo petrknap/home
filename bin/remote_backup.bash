@@ -47,7 +47,7 @@ bash -c " \
     if [[ \"${BACKUP_ID}\" != \"\" ]]; then wget -O- \"https://backup.petrknap.cz/touch.php?id=${BACKUP_ID}\"; fi \
 ) \
 || ( \
-    rm "${LAST_WORKING_DIR}"; \
-    ln -s "${WORKING_DIR}" "${LAST_WORKING_DIR}"; \
+    rm \"${LAST_WORKING_DIR}\"; \
+    ln -s \"${WORKING_DIR}\" \"${LAST_WORKING_DIR}\"; \
 ) \
 "
