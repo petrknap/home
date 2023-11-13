@@ -1,10 +1,10 @@
 # https://github.com/cmprescott/ansible-role-chrome/blob/f6a2df28f1c044a8a43eb8c6caf02a8a8d6b2a24/tasks/setup-apt.yml
 
-- name: "apt | ensure Google linux signing key present"
+- name: "Ensure Google linux signing key present"
   become: yes
   apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub state=present
 
-- name: "apt | ensure Google chrome repo present"
+- name: "Ensure Google chrome repo present"
   become: yes
   apt_repository:
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
@@ -12,7 +12,7 @@
     state: present
     update_cache: yes
 
-- name: "apt | ensure Google chrome present"
+- name: "Ensure Google chrome present"
   become: yes
   apt:
     name: "google-chrome-stable"

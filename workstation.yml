@@ -6,12 +6,12 @@
     - Git
     - Chrome
     - KeePass
-    - IDEA
     - PhpStorm
     - PyCharm
     - Postman
     - VioletUmlEditor
     - RestBreak
+    - Docker
     - workstation
   vars:
     user: dash
