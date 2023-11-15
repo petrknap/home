@@ -17,7 +17,7 @@
         configuration_directory: "{{ data_directory }}/pi-hole"
     - name: Emby
       vars:
-        version: 4.6.7.0  # 4.7 - DLNA does not work correctly, 4.7.9-12 does not play at all
+        version: 4.8.0.58
         architecture: arm32v7
         configuration_directory: "{{ data_directory }}/emby"
     - name: LetsEncryptNginxReverseProxy
