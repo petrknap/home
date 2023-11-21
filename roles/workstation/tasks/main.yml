@@ -13,6 +13,7 @@
     - make
     - mc
     - nano
+    - tree
 
 - name: Generate locales
   locale_gen:
