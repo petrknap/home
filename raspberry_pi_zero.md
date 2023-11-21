@@ -97,7 +97,7 @@ set -x
 DIR=`realpath "${BASH_SOURCE%/*}"`
 
 UUID="${1}"
-SOCKET="$(ip route get 1 | awk '{print $NF;exit}'):${2}"
+SOCKET="$(hostname -I | cut -d ' ' -f 1):${2}"
 
 sudo -u nobody \
 node "${DIR}/ssdp-faker/ssdp-faker.js" run-server \
