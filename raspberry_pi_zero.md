@@ -138,7 +138,7 @@ tmpfs   /var/log   tmpfs   defaults,noatime,nosuid,size=64m   0   0
 1. `sudo nano /etc/fstab` and insert `/dev/mapper/backup /media/backup ext4 defaults,rw 0 0`
 
 
-### Create `/home/pi/remote_backup`
+### Create `/home/pi/remote_backup.bash`
 
 ```bash
 #!/usr/bin/env bash
@@ -166,7 +166,7 @@ if [[ ! -e "/media/backup/local" ]]; then
     mkdir "/media/backup/local"
 fi
 
-./bin/remote_backup "/home/pi" 22 "/media/backup/local" "
+./bin/remote_backup.bash "/home/pi" 22 "/media/backup/local" "
 .home
 .cache
 .config
@@ -181,7 +181,7 @@ if [[ ! -e "/media/backup/server" ]]; then
     mkdir "/media/backup/server"
 fi
 
-./bin/remote_backup "{user}@{public IP}:/home/" {public port} "/media/backup/server" "
+./bin/remote_backup.bash "{user}@{public IP}:/home/" {public port} "/media/backup/server" "
 *.img
 */.keep
 user/.cache
@@ -201,8 +201,8 @@ if [[ ! -e "/media/backup/ftp/hosting" ]]; then
     mkdir -p "/media/backup/ftp/hosting"
 fi
 
-./bin/wget_mirror "ftp://{public IP}:{public port}/{folder}" "/media/backup/ftp" {user} {password}
-./bin/remote_backup "/media/backup/ftp/hosting" 22 "/media/backup/hosting" "
+./bin/wget_mirror.bash "ftp://{public IP}:{public port}/{folder}" "/media/backup/ftp" {user} {password}
+./bin/remote_backup.bash "/media/backup/ftp/hosting" 22 "/media/backup/hosting" "
 */.listing
 " "" "${BACKUP}"
 ); fi

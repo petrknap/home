@@ -9,14 +9,14 @@ clean_backup() {
     YEAR="${2:0:4}"
     shift
     FIND="find ${TARGET} -maxdepth 1 -name ${YEAR}-*_*"
-    for DATE in ${*}
+    for DATE in "${@}"
     do
         FIND="${FIND} -not -name ${DATE}_*"
     done
-    if [[ `${FIND} | wc -l` -gt 0 ]]
+    if [[ $(${FIND} | wc -l) -gt 0 ]]
     then
         echo -e "\nPress [Enter] to clean backups based on this search:\n\t${FIND}" 1>&2
-        read
+        read -r
         ${FIND} -exec rm -rfv {} \;
     fi
 }
