@@ -8,16 +8,23 @@ clean_backup() {
     TARGET="${1}"
     YEAR="${2:0:4}"
     shift
-    FIND="find ${TARGET} -maxdepth 1 -name ${YEAR}-*_*"
+    FIND_REMOVE="find ${TARGET} -maxdepth 1 -name ${YEAR}-*_*"
+    FIND_KEEP="find ${TARGET} -maxdepth 1"
     for DATE in "${@}"
     do
-        FIND="${FIND} -not -name ${DATE}_*"
+        FIND_REMOVE="${FIND_REMOVE} -not -name ${DATE}_*"
+        FIND_KEEP="${FIND_KEEP} -name ${DATE}_*"
     done
-    if [[ $(${FIND} | wc -l) -gt 0 ]]
+    if [[ $(${FIND_REMOVE} | wc -l) -gt 0 ]]
     then
-        echo -e "\nPress [Enter] to clean backups based on this search:\n\t${FIND}" 1>&2
+        echo -e "\nPress [Enter] to clean backups based on this search:\n\t${FIND_REMOVE}" 1>&2
         read -r
-        ${FIND} -exec rm -rfv {} \;
+        if [[ $(${FIND_KEEP} | wc -l) -eq 0 ]]
+        then
+            echo -e "\nWARNING: There would be no backup left, press [Enter] to continue, based on this search:\n\t${FIND_KEEP}" 1>&2
+            read -r
+        fi
+        ${FIND_REMOVE} -exec rm -rfv {} \;
     fi
 }
 
