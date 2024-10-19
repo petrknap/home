@@ -2,7 +2,7 @@
 Version=1.0
 Encoding=UTF-8
 Name=PhpStorm
-Exec={{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}/bin/phpstorm.sh
+Exec={{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}/bin/phpstorm
 Icon={{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}/bin/phpstorm.png
 Terminal=false
 Type=Application
