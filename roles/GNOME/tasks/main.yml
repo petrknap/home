@@ -1,4 +1,7 @@
-- file:
-    src: "{{ home_dir }}/Desktop"
-    dest: "{{ home_dir }}/.local/share/applications/Desktop"
-    state: link
+- name: Register *.desktop(s) from Desktop
+  copy:
+    src: "{{ item }}"
+    dest: "{{ home_dir }}/.local/share/applications/"
+    mode: preserve
+  with_fileglob:
+      - "{{ home_dir }}/Desktop/*.desktop"

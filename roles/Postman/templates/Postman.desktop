@@ -6,3 +6,4 @@ Exec={{ home_dir }}/.apps/Postman/Postman/Postman
 Icon={{ home_dir }}/.apps/Postman/Postman/app/resources/app/assets/icon.png
 Terminal=false
 Type=Application
+StartupWMClass=Postman

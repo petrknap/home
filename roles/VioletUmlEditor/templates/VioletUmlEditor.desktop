@@ -6,3 +6,4 @@ Exec={{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-{{ VioletUmlEditor.ver
 Icon={{ home_dir }}/.apps/VioletUmlEditor/violetumleditor-{{ VioletUmlEditor.version }}/icon.ico
 Terminal=false
 Type=Application
+StartupWMClass=com-horstmann-violet-UMLEditorApplication

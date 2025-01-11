@@ -6,3 +6,4 @@ Exec={{ home_dir }}/.apps/KeePass/keepass-{{ KeePass.version }}/run
 Icon={{ home_dir }}/.apps/KeePass/keepass-{{ KeePass.version }}/icon.png
 Terminal=false
 Type=Application
+StartupWMClass=KeePass2
