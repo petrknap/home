@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Name=Rest Break
-Exec={{ home_dir }}/.apps/RestBreak/{{ RestBreak.gist }}-{{ RestBreak.commit }}/rest-break
-Icon={{ home_dir }}/.apps/RestBreak/{{ RestBreak.gist }}-{{ RestBreak.commit }}/icon.png
-Terminal=false
-Type=Application

@@ -6,3 +6,4 @@ Exec={{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}/bin/phpstorm
 Icon={{ home_dir }}/.apps/PhpStorm/PhpStorm-{{ PhpStorm.build }}/bin/phpstorm.png
 Terminal=false
 Type=Application
+StartupWMClass=jetbrains-phpstorm

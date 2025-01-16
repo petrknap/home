@@ -6,3 +6,4 @@ Exec={{ home_dir }}/.apps/PyCharm/pycharm-community-{{ PyCharm.build }}/bin/pych
 Icon={{ home_dir }}/.apps/PyCharm/pycharm-community-{{ PyCharm.build }}/bin/pycharm.png
 Terminal=false
 Type=Application
+StartupWMClass=jetbrains-pycharm-ce

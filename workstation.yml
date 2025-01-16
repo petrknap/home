@@ -2,7 +2,6 @@
   roles:
     - SSD
     - Bash
-    - GNOME
     - Git
     - Chrome
     - KeePass
@@ -11,9 +10,9 @@
     - PyCharm
     - Postman
     - VioletUmlEditor
-    - RestBreak
     - Docker
     - workstation
+    - GNOME
   vars:
     user: dash
     home_dir: "/home/{{ user }}"
