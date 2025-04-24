@@ -6,11 +6,14 @@ then
     rm ~/backup.tmp
 fi
 
-ls -aR ~/.apps > ~/.apps.ls || true
-ls -aR ~/Downloads > ~/Downloads.ls || true
-ls -aR ~/Videos > ~/Videos.ls || true
-ls -aR ~/github.com > ~/github.com.ls || true
-ls -aR ~/snap > ~/snap.ls || true
+sudo tree \
+  ~/.apps \
+  ~/Downloads \
+  ~/Videos \
+  ~/github.com \
+  ~/snap \
+> ~/excluded.tree
+
 find ~ -maxdepth 1 \
     -not -path ~/backup.tmp -not -path ~/backup.tar -not -path ~/backup.tar.xz -not -path ~/backup.tar.xz.gpg \
     -not -path ~ \
@@ -29,7 +32,7 @@ find ~ -maxdepth 1 \
         /etc \
         ~/.apps/KeePass \
     | gpg --verbose --symmetric --passphrase-file ~/backup.key --batch --output ~/backup.tmp \
-&& rm ~/*.ls
+&& rm ~/excluded.tree
 
 if [ -e ~/backup.tar.xz.gpg ]
 then
