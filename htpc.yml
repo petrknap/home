@@ -20,6 +20,10 @@
         version: 4.8.0.58
         architecture: arm32v7
         configuration_directory: "{{ data_directory }}/emby"
+    - name: website
+      vars:
+        directory: "{{ data_directory }}/website"
+        port: 8080
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"

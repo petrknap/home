@@ -1,0 +1,35 @@
+- name: Install needed packages
+  become: yes
+  apt:
+    pkg:
+      - docker.io
+    state: present
+    force: yes
+
+- name: Prepare directory
+  file:
+    path: "{{ directory }}"
+    state: directory
+
+- name: Create users.json
+  template:
+    src: templates/users.json
+    dest: "{{ directory }}/users.json"
+
+- name: Start web server
+  become: yes
+  docker_container:
+    name: website
+    image: amazoncorretto:21
+    pull: yes
+    state: started
+    restart: yes
+    restart_policy: always
+    volumes:
+      - "{{ directory }}:/mnt/website"
+    command: java -jar /mnt/website/server.jar
+    ports:
+      - "{{ port }}:8080/tcp"
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8080/ping
+      interval: 5m

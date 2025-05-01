@@ -1,0 +1,12 @@
+[
+  {
+    "username": "admin",
+    "password": "{{ lookup('password', directory + '/admin.password length=8') }}",
+    "roles": ["admin", "user"]
+  },
+  {
+    "username": "zero_1",
+    "password": "{{ lookup('password', directory + '/zero_1.password length=8') }}",
+    "roles": ["user"]
+  }
+]
