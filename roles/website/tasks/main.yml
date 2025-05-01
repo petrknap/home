@@ -32,6 +32,3 @@
     command: java -jar /mnt/website/server.jar
     ports:
       - "{{ port }}:8080/tcp"
-    healthcheck:
-      test: curl --fail http://127.0.0.1:8080/ping
-      interval: 5m
