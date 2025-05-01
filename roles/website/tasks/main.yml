@@ -11,9 +11,9 @@
   file:
     path: "{{ directory }}"
     state: directory
+    owner: {{ user }}
 
 - name: Create users.json
-  become: yes
   template:
     src: templates/users.json
     dest: "{{ directory }}/users.json"
