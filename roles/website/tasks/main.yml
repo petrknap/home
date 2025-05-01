@@ -11,7 +11,7 @@
   file:
     path: "{{ directory }}"
     state: directory
-    owner: {{ user }}
+    owner: "{{ user }}"
 
 - name: Create users.json
   template:
