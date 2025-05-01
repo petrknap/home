@@ -13,6 +13,7 @@
     state: directory
 
 - name: Create users.json
+  become: yes
   template:
     src: templates/users.json
     dest: "{{ directory }}/users.json"
