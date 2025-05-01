@@ -22,7 +22,7 @@
   become: yes
   docker_container:
     name: website
-    image: amazoncorretto:21
+    image: bellsoft/liberica-openjdk-alpine:21  # todo use amazoncorretto
     pull: yes
     state: started
     restart: yes
