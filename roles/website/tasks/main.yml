@@ -12,7 +12,7 @@
   register: website_jar
 
 - fail:
-    msg: website.jar not found
+    msg: "{{ directory }}/website.jar not found"
   when: website_jar.stat.exists == false
 
 - name: Prepare directory
@@ -36,8 +36,8 @@
     - .dockerignore
 
 - name: Download JRE
-  copy:
-    remote_src: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
+  get_url:
+    url: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
     dest: "{{ directory }}/java.deb"
 
 - name: Build docker image
