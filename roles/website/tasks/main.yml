@@ -6,6 +6,11 @@
     state: present
     force: yes
 
+- name: Check website.jar presence
+  fail:
+    msg: website.jar not found
+  creates: "{{ directory }}/website.jar"
+
 - name: Prepare directory
   become: yes
   file:
@@ -18,12 +23,31 @@
     src: templates/users.json
     dest: "{{ directory }}/users.json"
 
-- name: Start web server
+- name: Copy Docker files
+  copy:
+    src: "files/{{ item }}"
+    dest: "{{ directory }}/{{ item }}"
+  with:
+    - Dockerfile
+    - .dockerignore
+
+- name: Download JRE
+  copy:
+    src: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
+    dest: "{{ directory }}/java.deb"
+
+- name: Build docker image
+  become: yes
+  docker_image:
+    path: "{{ directory }}/"
+    name: petrknap/website
+    tag: latest
+
+- name: Start server
   become: yes
   docker_container:
     name: website
-    image: bellsoft/liberica-openjdk-alpine:21  # todo use amazoncorretto
-    pull: yes
+    image: petrknap/website:latest
     state: started
     restart: yes
     restart_policy: always
