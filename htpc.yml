@@ -22,6 +22,7 @@
         configuration_directory: "{{ data_directory }}/emby"
     - name: website
       vars:
+        architecture: arm32-vfp-hflt
         directory: "{{ data_directory }}/website"
         port: 8080
     - name: LetsEncryptNginxReverseProxy
