@@ -45,7 +45,7 @@
       - "{{ configuration_directory }}/etc/letsencrypt:/etc/letsencrypt"
     ports:
       - "80:80/tcp"
-      - "443:443/tcp"
+      - "8443:443/tcp"
     env:
       RULES: "{{ rules }}"
       DEFAULT_SERVER: "{{ default_server }}"

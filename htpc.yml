@@ -28,7 +28,7 @@
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
-        rules: "prcek.petrknap.cz>{{ local_ip }}:8080/404,backups.petrknap.cz>{{ local_ip }}:8080/backups"
+        rules: "prcek.petrknap.cz>{{ local_ip }}:8080/404/,backups.petrknap.cz>{{ local_ip }}:8080/backups/"
         default_server: |-
           allow 10.0.0.0/8;
           allow 172.16.0.0/12;
