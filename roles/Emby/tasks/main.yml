@@ -39,8 +39,8 @@
       - "{{ shared_directory }}/:/mnt/shared/:ro"
     ports:
       - "1900:1900/udp"
-      - "{{ http_port }}:8096/tcp"
-      - "{{ https_port }}:8920/tcp"
+      - "{{ http_port }}:{{ http_port }}/tcp"
+      - "{{ https_port }}:{{ https_port }}/tcp"
     network_mode: host
     env:
       UID: "0"
