@@ -27,7 +27,7 @@
     src: templates/users.json
     dest: "{{ directory }}/users.json"
 
-- name: Copy Docker files
+- name: Copy files
   copy:
     src: "files/{{ item }}"
     dest: "{{ directory }}/{{ item }}"
@@ -40,7 +40,7 @@
     url: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
     dest: "{{ directory }}/java.deb"
 
-- name: Build docker image
+- name: Build image
   become: yes
   docker_image:
     path: "{{ directory }}/"
