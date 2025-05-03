@@ -58,4 +58,4 @@
     volumes:
       - "{{ directory }}:/mnt/website"
     ports:
-      - "{{ port }}:8080/tcp"
+      - "{{ http_port }}:8080/tcp"

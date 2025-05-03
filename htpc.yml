@@ -26,7 +26,7 @@
       vars:
         architecture: arm32-vfp-hflt
         directory: "{{ data_directory }}/website"
-        port: 8080
+        http_port: 8080
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
