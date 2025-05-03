@@ -13,7 +13,7 @@
 
 - fail:
     msg: website.jar not found
-  when: website_jar.stat.exists == true
+  when: website_jar.stat.exists == false
 
 - name: Prepare directory
   become: yes
@@ -37,7 +37,7 @@
 
 - name: Download JRE
   copy:
-    src: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
+    remote_src: "https://download.bell-sw.com/java/21.0.7+9/bellsoft-jre21.0.7+9-linux-{{ architecture }}.deb"
     dest: "{{ directory }}/java.deb"
 
 - name: Build docker image
