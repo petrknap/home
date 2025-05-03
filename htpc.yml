@@ -20,6 +20,8 @@
         version: 4.8.0.58
         architecture: arm32v7
         configuration_directory: "{{ data_directory }}/emby"
+        http_port: 8096
+        https_port: 443
     - name: website
       vars:
         architecture: arm32-vfp-hflt
@@ -29,6 +31,8 @@
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
         rules: "prcek.petrknap.cz>{{ local_ip }}:8080/404/,backups.petrknap.cz>{{ local_ip }}:8080/backups/"
+        http_port: 80
+        https_port: 8443
         default_server: |-
           allow 10.0.0.0/8;
           allow 172.16.0.0/12;
