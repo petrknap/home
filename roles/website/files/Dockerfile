@@ -1,6 +1,7 @@
 FROM debian:10
 
 WORKDIR /mnt/website
+EXPOSE 8080/tcp
 
 COPY java.deb /tmp/java.deb
 

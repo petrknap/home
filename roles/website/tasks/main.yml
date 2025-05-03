@@ -57,6 +57,5 @@
     restart_policy: always
     volumes:
       - "{{ directory }}:/mnt/website"
-    command: java -jar /mnt/website/server.jar
     ports:
       - "{{ port }}:8080/tcp"
