@@ -6,7 +6,8 @@ REMOTE_PORT="${2}"
 TARGET="${3}"
 EXCLUDES="${4}"
 ARGUMENTS="${5}"
-BACKUP_ID="${6}"
+BACKUPS_ID="${6}"
+BACKUPS_CREDENTIAL="${7}"
 
 LAST_FINAL_DIR="${TARGET}/LAST"
 LAST_WORKING_DIR="${LAST_FINAL_DIR}.tmp"
@@ -44,7 +45,7 @@ bash -c " \
     rm \"${LAST_FINAL_DIR}\"; \
     ln -s \"${FINAL_DIR}\" \"${LAST_FINAL_DIR}\"; \
     rm \"${LAST_WORKING_DIR}\"; \
-    if [[ \"${BACKUP_ID}\" != \"\" ]]; then wget -O- \"https://backup.petrknap.cz/touch.php?id=${BACKUP_ID}\"; fi \
+    if [[ \"${BACKUPS_ID}\" != \"\" ]]; then curl -X PUT \"https://${BACKUP_USER}:${BACKUP_PASSWORD}@backups.petrknap.cz/${BACKUPS_ID}/freshness\"; fi \
 ) \
 || ( \
     rm \"${LAST_WORKING_DIR}\"; \
