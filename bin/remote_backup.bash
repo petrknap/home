@@ -45,7 +45,7 @@ bash -c " \
     rm \"${LAST_FINAL_DIR}\"; \
     ln -s \"${FINAL_DIR}\" \"${LAST_FINAL_DIR}\"; \
     rm \"${LAST_WORKING_DIR}\"; \
-    if [[ \"${BACKUPS_ID}\" != \"\" ]]; then curl -X PUT \"https://${BACKUP_USER}:${BACKUP_PASSWORD}@backups.petrknap.cz/${BACKUPS_ID}/freshness\"; fi \
+    if [[ \"${BACKUPS_ID}\" != \"\" ]]; then curl -X PUT \"https://${BACKUPS_CREDENTIAL}@backups.petrknap.cz/${BACKUPS_ID}/freshness\"; fi \
 ) \
 || ( \
     rm \"${LAST_WORKING_DIR}\"; \
