@@ -1,4 +1,7 @@
 {
+  "bootGuard": {
+    "sqliteCopyFile": "data.sqlite.copy"
+  },
   "users": [
     {
       "username": "petr",
