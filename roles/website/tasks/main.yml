@@ -22,16 +22,17 @@
     state: directory
     owner: "{{ user }}"
 
-- name: Create users.json
+- name: Create config.json
   template:
-    src: templates/users.json
-    dest: "{{ directory }}/users.json"
+    src: templates/config.json
+    dest: "{{ directory }}/config.json"
 
 - name: Copy files
   copy:
     src: "files/{{ item }}"
     dest: "{{ directory }}/{{ item }}"
   with_items:
+    - accesses.bash
     - Dockerfile
     - .dockerignore
 

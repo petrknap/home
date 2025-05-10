@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "username": "petr",
+      "password": "{{ lookup('password', directory + '/petr.password length=32') }}",
+      "roles": ["admin", "user"]
+    },
+    {
+      "username": "zero_1",
+      "password": "{{ lookup('password', directory + '/zero_1.password length=16') }}",
+      "roles": ["user"]
+    }
+  ]
+}
