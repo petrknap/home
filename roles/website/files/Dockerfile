@@ -17,10 +17,12 @@ RUN apt update \
 
 HEALTHCHECK --interval=5m CMD curl --fail http://127.0.0.1:8080/ping
 
-CMD ["java", \
-    "-Dserver.forward-headers-strategy=native", \
-    "-Dserver.tomcat.basedir=/tmp/tomcat", \
+CMD [ \
+    "java", \
     "-Dserver.tomcat.accesslog.directory=logs", \
     "-Dserver.tomcat.accesslog.enabled=true", \
-    "-jar", "website.jar", \
-""]
+    "-Dserver.tomcat.basedir=/tmp/tomcat", \
+    "-Dserver.tomcat.protocol-header=x-forwarded-proto", \
+    "-Dserver.tomcat.remote-ip-header=x-forwarded-for", \
+    "-jar", "website.jar" \
+]
