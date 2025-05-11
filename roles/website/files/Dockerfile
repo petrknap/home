@@ -21,7 +21,7 @@ CMD [ \
     "java", \
     "-Dserver.tomcat.accesslog.directory=logs", \
     "-Dserver.tomcat.accesslog.enabled=true", \
-    "-Dserver.tomcat.accesslog.pattern=\"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{User-Agent}i\\\"\"", \
+    "-Dserver.tomcat.accesslog.pattern=%{X-Forwarded-For}i %l %u %t \"%r\" %s %b \"%{User-Agent}i\"", \
     "-Dserver.tomcat.basedir=/tmp/tomcat", \
     "-jar", "website.jar" \
 ]
