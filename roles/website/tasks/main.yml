@@ -44,8 +44,7 @@
 - name: Build image
   become: yes
   docker_image:
-    build:
-      path: "{{ directory }}/"
+    path: "{{ directory }}/"
     name: petrknap/website
     tag: latest
 
