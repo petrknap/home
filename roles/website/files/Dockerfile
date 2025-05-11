@@ -18,8 +18,9 @@ RUN apt update \
 HEALTHCHECK --interval=5m CMD curl --fail http://127.0.0.1:8080/ping
 
 CMD [
-    "java", "-jar", "website.jar",
+    "java",
     "-Dserver.tomcat.basedir=/tmp/tomcat",
     "-Dserver.tomcat.accesslog.directory=logs",
-    "-Dserver.tomcat.accesslog.enabled=true"
+    "-Dserver.tomcat.accesslog.enabled=true",
+    "-jar", "website.jar"
 ]
