@@ -58,5 +58,6 @@
     restart_policy: always
     volumes:
       - "{{ directory }}:/mnt/website"
+      - "{{ directory }}/logs:/tmp/tomcat/logs"
     ports:
       - "{{ http_port }}:8080/tcp"
