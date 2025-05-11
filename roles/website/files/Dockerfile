@@ -21,10 +21,7 @@ CMD [ \
     "java", \
     "-Dserver.tomcat.accesslog.directory=logs", \
     "-Dserver.tomcat.accesslog.enabled=true", \
-    "-Dserver.tomcat.accesslog.pattern=combined", \
+    "-Dserver.tomcat.accesslog.pattern=\"%{X-Forwarded-For}i %l %u %t \\\"%r\\\" %s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\"\"", \
     "-Dserver.tomcat.basedir=/tmp/tomcat", \
-    "-Dserver.tomcat.protocol-header=X-Forwarded-Proto", \
-    "-Dserver.tomcat.remote-ip-header=X-Forwarded-For", \
-    "-Dserver.use-forward-headers=true", \
     "-jar", "website.jar" \
 ]
