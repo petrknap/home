@@ -21,5 +21,6 @@ CMD ["java", \
     "-Dserver.tomcat.basedir=/tmp/tomcat", \
     "-Dserver.tomcat.accesslog.directory=logs", \
     "-Dserver.tomcat.accesslog.enabled=true", \
+    "-Dserver.tomcat.accesslog.request-attributes-enabled=true", \
     "-jar", "website.jar", \
 ""]
