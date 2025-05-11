@@ -23,6 +23,6 @@ CMD [ \
     "-Dserver.tomcat.accesslog.enabled=true", \
     "-Dserver.tomcat.accesslog.pattern=combined", \
     "-Dserver.tomcat.basedir=/tmp/tomcat", \
-    "-Dserver.tomcat.remote-ip-header=X-Forwarded-For", \
+    "-Dserver.tomcat.accesslog.remote-ip-header=X-Forwarded-For", \
     "-jar", "website.jar" \
 ]
