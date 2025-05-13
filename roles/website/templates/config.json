@@ -2,6 +2,9 @@
   "bootGuard": {
     "sqliteCopyFile": "data.sqlite.copy"
   },
+  "requestRateLimiter": {
+    "authorizationRequestsPerMinute": 60
+  },
   "users": [
     {
       "username": "petr",
