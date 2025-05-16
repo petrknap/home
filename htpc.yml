@@ -30,6 +30,7 @@
     - name: LetsEncryptNginxReverseProxy
       vars:
         configuration_directory: "{{ data_directory }}/letsencrypt-nginx-reverse-proxy"
+        nginx_version: 1.19
         rules: "prcek.petrknap.cz>{{ local_ip }}:8080/404/,backups.petrknap.cz>{{ local_ip }}:8080/backups/,dashs.link>{{ local_ip }}:8080/link/"
         http_port: 80
         https_port: 8443

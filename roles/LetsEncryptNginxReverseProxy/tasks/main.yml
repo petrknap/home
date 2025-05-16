@@ -30,6 +30,8 @@
   docker_image:
     path: "{{ configuration_directory }}/tmp/repository"
     name: petrknap/letsencrypt-nginx-reverse-proxy
+    args:
+      NGINX_VERSION: "{{ nginx_version }}"
     tag: latest
     force: yes
 
