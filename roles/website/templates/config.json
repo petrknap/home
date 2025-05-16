@@ -12,6 +12,11 @@
       "roles": ["admin", "user"]
     },
     {
+      "username": "prcek",
+      "password": "{{ lookup('password', directory + '/prcek.password length=16') }}",
+      "roles": ["user"]
+    },
+    {
       "username": "zero_1",
       "password": "{{ lookup('password', directory + '/zero_1.password length=16') }}",
       "roles": ["user"]
