@@ -54,8 +54,9 @@
     user: "{{ user }}"
     key: "{{ lookup('file', 'files/' + item + '.pub') }}"
   with_items:
-    - dash@avo-cat-o-hp450g3
     - OTG@KeePass
+    - dash@avo-cat-o-hp450g3
+    - dash@elite-boobs-hp835g8
     - pi@raspberry-pi-zero-1
     - pi@raspberry-pi-zero-2
     - windows@R3600

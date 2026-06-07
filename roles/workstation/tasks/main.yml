@@ -8,13 +8,12 @@
     - filezilla
     - git
     - gpg
-    - htop
-    - iotop
     - make
     - mc
     - nano
 
 - name: Generate locales
+  become: yes
   locale_gen:
     name: '{{ item }}'
     state: present
@@ -35,3 +34,10 @@
   file:
     path: "{{ home_dir }}/backup.key"
     mode: 0400
+
+- name: Copy HP835G8.sleep script
+  become: yes
+  copy:
+    src: files/hp835g8.sleep.bash
+    dest: "/lib/systemd/system-sleep/hp835g8.sleep"
+    mode: 0755

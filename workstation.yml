@@ -1,18 +1,15 @@
 - hosts: 127.0.0.1
+  become_method: community.general.run0  # Ansible 2.21 has a problem with sudo-rs
   roles:
-    - SSD
-    - Bash
-    - Git
-    - Chrome
-    - KeePass
-    - IDEA
-    - PhpStorm
-    - PyCharm
-    - Postman
-    - VioletUmlEditor
-    - Docker
-    - workstation
-    - GNOME
+    #- SSD
+    #- Bash
+    #- Git
+    #- Chrome
+    #- KeePass
+    #- IDEA
+    #- PhpStorm
+    #- Docker
+    #- workstation
   vars:
     user: dash
     home_dir: "/home/{{ user }}"
