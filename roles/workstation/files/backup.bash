@@ -9,7 +9,6 @@ fi
 ls -aR ~/.apps > ~/.apps.ls || true
 ls -aR ~/Downloads > ~/Downloads.ls || true
 ls -aR ~/Videos > ~/Videos.ls || true
-ls -aR ~/github.com > ~/github.com.ls || true
 ls -aR ~/snap > ~/snap.ls || true
 find ~ -maxdepth 1 \
     -not -path ~/backup.tmp -not -path ~/backup.tar -not -path ~/backup.tar.xz -not -path ~/backup.tar.xz.gpg \
@@ -22,7 +21,6 @@ find ~ -maxdepth 1 \
     -not -path ~/.local \
     -not -path ~/Downloads \
     -not -path ~/Videos \
-    -not -path ~/github.com \
     -not -path ~/snap \
     | sed 's/.*/"&"/' \
     | xargs -t sudo tar --checkpoint=250 --create --xz \
