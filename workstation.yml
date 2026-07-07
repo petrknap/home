@@ -1,6 +1,7 @@
 - hosts: 127.0.0.1
   become_method: community.general.run0  # Ansible 2.21 has a problem with sudo-rs
   roles:
+    - SecureDNS
     #- SSD
     #- Bash
     #- Git
