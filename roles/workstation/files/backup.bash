@@ -19,6 +19,7 @@ find ~ -maxdepth 1 \
     -not -path ~/.docker \
     -not -path ~/.java \
     -not -path ~/.local \
+    -not -path ~/.steam \
     -not -path ~/Downloads \
     -not -path ~/Videos \
     -not -path ~/snap \
@@ -26,6 +27,7 @@ find ~ -maxdepth 1 \
     | xargs -t sudo tar --checkpoint=250 --create --xz \
         /etc \
         ~/.apps/KeePass \
+        ~/.steam/steam/steamapps/compatdata/*/pfx/drive_c/users/steamuser \
     | gpg --verbose --symmetric --passphrase-file ~/backup.key --batch --output ~/backup.tmp \
 && rm ~/*.ls
 
