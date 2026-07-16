@@ -2,7 +2,7 @@
   become: yes
   sysctl:
     name: vm.swappiness
-    value: 1  # default: 60
+    value: 30  # default: 60
     state: present
 
 - name: Prevent file searches to swap out existing apps from RAM # https://askubuntu.com/a/964933
