@@ -2,7 +2,7 @@
   become_method: community.general.run0  # Ansible 2.21 has a problem with sudo-rs
   roles:
     #- SecureDNS
-    - SSD
+    #- SSD
     #- Bash
     #- Git
     #- Chrome
@@ -10,6 +10,7 @@
     #- IDEA
     #- PhpStorm
     #- Docker
+    - AI
     #- workstation
   vars:
     user: dash
