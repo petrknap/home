@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
+#
+# Generates AI Markdown context from a Git repository or its sub-directory.
+#
+# Tips:
+#   - Pass ~ as a sub-directory to skip relevant files and include only the feature diff.
+#
 (
+  set -euo pipefail
+
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: Directory '$PWD' is not a git repository." >&2
+    echo "Directory '$PWD' is not a Git repository." >&2
     exit 1
   fi
 
@@ -35,5 +41,4 @@ set -euo pipefail
   echo "~~~diff"
   (git diff main 2>/dev/null || git diff master 2>/dev/null || true) | sed 's/~~~/```/g'
   echo "~~~"
-
-)  # end of PWD protection
+)
