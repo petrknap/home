@@ -1,8 +1,8 @@
 - name: Set required version and build
   set_fact:
     IDEA:
-      version: 2024.1.1
-      build: 241.15989.150
+      version: 2025.2.6.2
+      build: 252.28539.54
 
 - name: Prepare directory
   file:
@@ -22,9 +22,9 @@
     dest: "{{ home_dir }}/Desktop/IDEA.desktop"
     mode: 0774
 
-- name: Set inotify watches limit # https://confluence.jetbrains.com/display/IDEADEV/Inotify+Watches+Limit
+- name: Set inotify watches limit # https://youtrack.jetbrains.com/articles/SUPPORT-A-1715/Inotify-Watches-Limit-Linux
   become: yes
   sysctl:
     name: fs.inotify.max_user_watches
-    value: 524288
+    value: 1048576
     state: present

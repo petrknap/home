@@ -1,7 +1,7 @@
 - name: Set required version
   set_fact:
     KeePass:
-      version: 2.23.0
+      version: 2.54.0
 
 - name: Prepare directory
   file:

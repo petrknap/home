@@ -1,0 +1,12 @@
+- become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    force: yes
+  with_items:
+    - git
+
+- copy:
+    src: files/build-ai-context.bash
+    dest: "{{ home_dir }}/build-ai-context.bash"
+    mode: 0500
